@@ -6,5 +6,5 @@ CXX_FLAGS = -g   -std=gnu++1z
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/mnt/d/Projects/ProjektBarium/src -I/mnt/d/Projects/ProjektBarium/build/src 
 

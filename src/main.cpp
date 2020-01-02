@@ -1,5 +1,9 @@
 #include <iostream>
 
-int main(int, char**) {
-    std::cout << "Hello, world!\n";
+extern int yylex();
+
+int main(int argc, char* argv[]) {
+    yylex();
+
+    return 0;
 }

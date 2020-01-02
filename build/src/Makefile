@@ -177,6 +177,33 @@ main.cpp.s:
 	cd /mnt/d/Projects/ProjektBarium/build && $(MAKE) -f src/CMakeFiles/barium.dir/build.make src/CMakeFiles/barium.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+tokens.o: tokens.cc.o
+
+.PHONY : tokens.o
+
+# target to build an object file
+tokens.cc.o:
+	cd /mnt/d/Projects/ProjektBarium/build && $(MAKE) -f src/CMakeFiles/barium.dir/build.make src/CMakeFiles/barium.dir/tokens.cc.o
+.PHONY : tokens.cc.o
+
+tokens.i: tokens.cc.i
+
+.PHONY : tokens.i
+
+# target to preprocess a source file
+tokens.cc.i:
+	cd /mnt/d/Projects/ProjektBarium/build && $(MAKE) -f src/CMakeFiles/barium.dir/build.make src/CMakeFiles/barium.dir/tokens.cc.i
+.PHONY : tokens.cc.i
+
+tokens.s: tokens.cc.s
+
+.PHONY : tokens.s
+
+# target to generate assembly for a file
+tokens.cc.s:
+	cd /mnt/d/Projects/ProjektBarium/build && $(MAKE) -f src/CMakeFiles/barium.dir/build.make src/CMakeFiles/barium.dir/tokens.cc.s
+.PHONY : tokens.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -191,6 +218,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... tokens.o"
+	@echo "... tokens.i"
+	@echo "... tokens.s"
 .PHONY : help
 
 

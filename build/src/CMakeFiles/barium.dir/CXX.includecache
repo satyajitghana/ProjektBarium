@@ -6,6 +6,22 @@
 
 #IncludeRegexTransform: 
 
+/mnt/d/Projects/ProjektBarium/build/src/tokens.cc
+stdio.h
+-
+string.h
+-
+errno.h
+-
+stdlib.h
+-
+inttypes.h
+-
+string
+-
+unistd.h
+-
+
 /mnt/d/Projects/ProjektBarium/src/main.cpp
 iostream
 -

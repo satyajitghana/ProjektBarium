@@ -5,11 +5,14 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/mnt/d/Projects/ProjektBarium/src/main.cpp" "/mnt/d/Projects/ProjektBarium/build/src/CMakeFiles/barium.dir/main.cpp.o"
+  "/mnt/d/Projects/ProjektBarium/build/src/tokens.cc" "/mnt/d/Projects/ProjektBarium/build/src/CMakeFiles/barium.dir/tokens.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "../src"
+  "src"
   )
 
 # Targets to which this target links.

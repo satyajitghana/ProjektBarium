@@ -13,11 +13,18 @@ FIND_PACKAGE(FLEX)
 FIND_PACKAGE(BISON)
 
 # sources
-set(SOURCES_COMMON main.cpp)
+set(SOURCES_COMMON tokens.l main.cpp)
+
+# lex the file
+FLEX_TARGET(Scanner tokens.l ${CMAKE_CURRENT_BINARY_DIR}/tokens.cc)
 
 # add the executable to the project
-add_executable(barium ${SOURCES_COMMON})
+add_executable(barium ${SOURCES_COMMON} ${FLEX_Scanner_OUTPUTS})
 
 # set the executable to use C++17
 set_property(TARGET barium PROPERTY CXX_STANDARD 17)
 set_property(TARGET barium PROPERTY CXX_STANDARD_REQUIRED ON)
+
+# additional search directories
+target_include_directories(barium PRIVATE ${barium_SOURCE_DIR})
+target_include_directories(barium PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

@@ -3,3 +3,5 @@
 
 src/CMakeFiles/barium.dir/main.cpp.o: ../src/main.cpp
 
+src/CMakeFiles/barium.dir/tokens.cc.o: src/tokens.cc
+
