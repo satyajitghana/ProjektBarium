@@ -1,1 +1,0 @@
-/usr/bin/g++-9  -g   CMakeFiles/barium.dir/main.cpp.o CMakeFiles/barium.dir/tokens.cc.o  -o barium 

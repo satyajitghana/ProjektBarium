@@ -1,9 +1,0 @@
-/mnt/d/Projects/ProjektBarium/build/CMakeFiles/rebuild_cache.dir
-/mnt/d/Projects/ProjektBarium/build/CMakeFiles/package.dir
-/mnt/d/Projects/ProjektBarium/build/CMakeFiles/edit_cache.dir
-/mnt/d/Projects/ProjektBarium/build/CMakeFiles/package_source.dir
-/mnt/d/Projects/ProjektBarium/build/src/CMakeFiles/edit_cache.dir
-/mnt/d/Projects/ProjektBarium/build/src/CMakeFiles/package_source.dir
-/mnt/d/Projects/ProjektBarium/build/src/CMakeFiles/rebuild_cache.dir
-/mnt/d/Projects/ProjektBarium/build/src/CMakeFiles/barium.dir
-/mnt/d/Projects/ProjektBarium/build/src/CMakeFiles/package.dir
