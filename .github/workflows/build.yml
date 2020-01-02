@@ -1,0 +1,22 @@
+name: Barium-CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: install deps
+      run: |
+        sudo apt-get install cmake
+        sudo apt-get install flex
+        sudo apt-get install bison
+    - name: build the target
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        make
