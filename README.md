@@ -4,6 +4,10 @@ This is the compiler i built for my programming lanugage barium, a fun little pr
 
 Tech Stack : FlexC++, BisonC++, LLVM
 
+## Build Status
+
+![](https://github.com/satyajitghana/ProjektBarium/workflows/Barium-CI/badge.svg)
+
 ## The Compiler Recipe
 
 Lexical Analyzer (Lex) -> Semantic Parsing (Bison) -> Assembly (LLVM) -> Executable
@@ -14,4 +18,4 @@ Lexical Analyzer (Lex) -> Semantic Parsing (Bison) -> Assembly (LLVM) -> Executa
 - [ ] Finish the compiler
 - [ ] Make it a Library
 - [ ] Add Docker Support
-- [ ] Create a CI/CD Pipeline
+- [X] Create a CI/CD Pipeline (partial)
