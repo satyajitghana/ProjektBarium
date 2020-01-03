@@ -8,10 +8,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: install deps
+    - name: Install C and C++ header files
       run: |
+        sudo apt-get update && sudo apt-get install -y gcc-multilib
+      if: matrix.install-headerfiles
+    - name: Install conan && conan package tools
+      run: |
+        python -m pip install --upgrade pip
         pip install conan
+        pip install conan_package_tools
+    - uses: actions/checkout@master
+    - name: install cmake
+      run: |
         sudo apt-get install cmake
     - name: build the target
       run: |

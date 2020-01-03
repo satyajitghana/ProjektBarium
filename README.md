@@ -6,7 +6,7 @@ Tech Stack : Flex, Bison, LLVM
 
 ## Build Status
 
-![Barium-CI](https://github.com/satyajitghana/ProjektBarium/workflows/Barium-CI/badge.svg?branch=master)
+![Barium-CI](https://github.com/satyajitghana/ProjektBarium/workflows/Barium-CI/badge.svg)
 
 ## The Compiler Recipe
 
