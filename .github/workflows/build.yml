@@ -23,9 +23,12 @@ jobs:
         pip install conan
         pip install conan_package_tools
     - uses: actions/checkout@master
-    - name: install cmake
+    - name: install deps
       run: |
         sudo apt-get install cmake
+        sudo apt-get install flex
+        sudo apt-get install bison
+        sudo apt-get install llvm
     - name: build the target
       run: |
         make
