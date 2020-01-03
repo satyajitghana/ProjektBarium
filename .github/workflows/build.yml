@@ -11,12 +11,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: install deps
       run: |
+        pip install conan
         sudo apt-get install cmake
-        sudo apt-get install flex
-        sudo apt-get install bison
     - name: build the target
       run: |
-        mkdir build
-        cd build
-        cmake ..
         make

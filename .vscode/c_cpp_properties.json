@@ -3,7 +3,10 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/usr/include/llvm-6.0",
+                "/usr/lib/llvm-6.0/include",
+                "${workspaceFolder}/src/AST"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

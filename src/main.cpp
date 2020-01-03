@@ -1,9 +1,14 @@
 #include <iostream>
 
 extern int yylex();
+extern int yyparse();
 
 int main(int argc, char* argv[]) {
-    yylex();
+    // while (true) {
+    //     std::cerr << "bison> ";
+    // }
+    // yylex();
+    yyparse();
 
     return 0;
 }
