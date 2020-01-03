@@ -11,14 +11,14 @@ class ASTDecimal : public ASTExpr {
 
     ASTDecimal(long long value) : value(value) {}
 
-    virtual llvm::Value* codeGen(CodeGenContext& context) override;
-}
+    virtual llvm::Value* codegen() override;
+};
 
 llvm::Value*
-ASTDecimal::codeGen(CodeGenContext& context) {
+ASTDecimal::codegen() {
     std::cout << "producing decimal: " << value << "\n";
 
-    return llvm::ConstantInt::get(Type::getInt128Ty(TheContext), value);
+    return llvm::ConstantInt::get(llvm::Type::getInt128Ty(codegen_ctx::TheContext), value);
 };
 
 }  // namespace barium

@@ -11,20 +11,22 @@ class ASTIdent : public ASTExpr {
     std::string name;
     ASTIdent(const std::string& name) : name(name) {}
 
-    virtual llvm::Value* codeGen(CodeGenContext& context) override;
+    virtual llvm::Value* codegen() override;
 };
 
-llvm::Value* ASTIdent::codeGen(CodeGenContext& context) {
+llvm::Value* ASTIdent::codegen() {
     std::cout << "producing a identifier reference: " << name << "\n";
 
-    if (context.locals().find(name) == context.locals().end()) {
+    if (codegen_ctx::Locals().find(name) == codegen_ctx::Locals().end()) {
         std::cerr << "undeclared variable"
                   << "\n";
 
         return nullptr;
     }
 
-    return new LoadInst(context.locals()[name], "", false, context.currentBlock());
+    return nullptr;
+
+    // return new llvm::LoadInst(codegen_ctx::Locals()[name], "", false, codegen_ctx::CurrentBlock());
 }
 
 }  // namespace barium

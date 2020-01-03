@@ -17,11 +17,11 @@ class ASTFunctionCall : public ASTExpr {
     /* Function Call without any arguments */
     ASTFunctionCall(const ASTIdent& id) : id(id) {}
 
-    virtual llvm::Value* codeGen(CodeGenContext& context) override;
+    virtual llvm::Value* codegen() override;
 };
 
-llvm::Value* ASTFunctionCall::codeGen(CodeGenContext& context) {
-    llvm::Function* function = context.module->getFunction(id.name.c_str());
+llvm::Value* ASTFunctionCall::codegen() {
+    llvm::Function* function = codegen_ctx::TheModule->getFunction(id.name.c_str());
 }
 
 }  // namespace barium

@@ -19,17 +19,17 @@ add_definitions(${LLVM_DEFINITIONS})
 
 # Find the libraries that correspond to the LLVM components
 # that we wish to use
-llvm_map_components_to_libnames(llvm_libs support core irreader)
+llvm_map_components_to_libnames(llvm_libs support core irreader all)
 
 # setup FLEX and BISON
 FIND_PACKAGE(FLEX)
 FIND_PACKAGE(BISON)
 
 # sources
-set(SOURCES_COMMON tokens.l parser.y main.cpp CodeGenContext.cpp)
+set(SOURCES_COMMON tokens.l parser.y main.cpp codegen_context.cpp)
 
 # headers
-set(HEADERS_COMMON CodeGenContext.hpp)
+set(HEADERS_COMMON codegen_context.hpp)
 
 # create the tokenizer
 FLEX_TARGET(Scanner tokens.l ${CMAKE_CURRENT_BINARY_DIR}/tokens.cpp)

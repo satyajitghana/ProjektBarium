@@ -3,7 +3,16 @@ cmake_minimum_required(VERSION 3.10)
 # enable verbose output from makefiles
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-set(HEADER_COMMON ASTNode.hpp ASTExpr.hpp ASTDecimal.hpp ASTFraction.hpp ASTIdent.hpp ASTFunctionCall.hpp)
+set(HEADER_COMMON 
+                    ASTNode.hpp
+                    ASTExpr.hpp 
+                    ASTDecimal.hpp 
+                    ASTFraction.hpp 
+                    ASTIdent.hpp 
+                    ASTFunctionCall.hpp 
+                    ASTBlock.hpp 
+                    ASTStmt.hpp
+                    ASTAssignment.hpp)
 
 # make sure you have LLVM
 find_package(LLVM REQUIRED CONFIG)
@@ -15,7 +24,7 @@ include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 
 # find BOOST
-find_package(Boost 1.70.0)
+find_package(Boost 1.70.0 REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(Ast ${HEADER_COMMON})

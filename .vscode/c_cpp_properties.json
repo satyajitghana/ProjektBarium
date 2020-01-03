@@ -5,8 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/include/llvm-6.0",
-                "/usr/lib/llvm-6.0/include",
-                "${workspaceFolder}/src/AST"
+                "/usr/lib/llvm-6.0/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../CodeGenContext.hpp"
+#include "../codegen_context.hpp"
 #include "llvm/IR/BasicBlock.h"
 
 namespace barium {
@@ -9,7 +9,7 @@ namespace barium {
 class ASTNode {
    public:
     virtual ~ASTNode() {}
-    virtual llvm::Value* codeGen(CodeGenContext& context) = 0;
+    virtual llvm::Value* codegen() = 0;
 };
 
 }  // namespace barium
