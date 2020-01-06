@@ -1,23 +1,28 @@
 #include <iostream>
+#include <memory>
 
-extern int yylex();
-extern int yyparse();
+#include "driver.hpp"
+#include "ast_structures.hpp"
+#include "code_generator.hpp"
 
-#include <llvm/Support/TargetSelect.h>
-#include <llvm/ExecutionEngine/ExecutionEngine.h>
-#include <llvm/ExecutionEngine/MCJIT.h>
-#include <llvm/ExecutionEngine/GenericValue.h>
-#include <llvm/Support/raw_ostream.h>
+#include "llvm/ExecutionEngine/ExecutionEngine.h"
+#include "llvm/ExecutionEngine/SectionMemoryManager.h"
+#include "llvm/ExecutionEngine/Orc/CompileUtils.h"
+#include "llvm/Support/TargetSelect.h"
 
-#include "codegen_context.hpp"
+extern std::shared_ptr<block> program_block;
 
 int main(int argc, char* argv[]) {
-    // yyparse();
     llvm::InitializeNativeTarget();
-	llvm::InitializeNativeTargetAsmPrinter();
-	llvm::InitializeNativeTargetAsmParser();
+    llvm::InitializeNativeTargetAsmPrinter();
 
-    codegen_ctx::InitializeModule();
+    driver drv;
+    drv.parse("-");
 
-    return 0;
+    program_block->code_gen();
+
+    codegen_context ctx;
+
+    std::cout << "LLVM IR Code : " << "\n";
+    ctx.generate_code(program_block);
 }

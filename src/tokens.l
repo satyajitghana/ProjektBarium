@@ -1,32 +1,81 @@
-/* auxiliary declarations */
 %{
-    #include <iostream>
     #include <string>
-    #include <cstdio>
-    #include <memory>
+    #include <cerrno>
+    #include <climits>
+    #include <cstdlib>
+    #include <cstring> // strerror
 
+    #include "driver.hpp"
     #include "parser.hpp"
-
-    extern "C" int yywrap() { return 1; }
-
-    #define SAVE_TOKEN  yylval.string = std::make_unique<std::string>(yytext, yyleng)
-    #define TOKEN(t)    (yylval.token = t)
+    #include "ast_structures.hpp"
 %}
 
-/* %option noyywrap */
+%option noyywrap nounput noinput batch
 
-/* regular definitions */
-NUMBER      [0-9]+
+%{
+    yy::parser::symbol_type make_DECIMAL(const std::string& s, const yy::parser::location_type& loc);
+    yy::parser::symbol_type make_FRACTION(const std::string& s, const yy::parser::location_type& loc);
+    yy::parser::symbol_type make_IDENT(const std::string& s, const yy::parser::location_type& loc);
+%}
 
-/* rules */
+ident       [a-zA-Z_][a-zA-Z_0-9]*
+num         [0-9]
+blank       [ \t\r]
+
+%{
+    // runs each time a pattern is matched
+    #define YY_USER_ACTION  loc.columns(yyleng);
+%}
+
 %%
-[ \n\t]             ; /* ignore white spaces, newline, tabs */
-[a-zA-Z_][a-zA-Z0-9_]*      { SAVE_TOKEN; return TOKEN(TIDENT) }
-{NUMBER}\.{NUMBER}          { SAVE_TOKEN; return TOKEN(TFRACTION); }
-{NUMBER}                    { SAVE_TOKEN; return TOKEN(TDECIMAL); }
-"="                         { return TOKEN(TEQ); }
-"+"                         { return TOKEN(TPLUS); }
 
-.                           { std::cerr << "unknown token" << "\n"; yyterminate(); }
+%{
+    yy::location& loc = drv.location;
+    loc.step();
+%}
+
+{blank}+            { loc.step(); }
+\n+                 { loc.lines(yyleng); loc.step(); }
+"+"                 { return yy::parser::make_PLUS(loc); } 
+"-"                 { return yy::parser::make_MINUS(loc); }
+"*"                 { return yy::parser::make_MUL(loc); }   
+"/"                 { return yy::parser::make_DIV(loc); }
+"="                 { return yy::parser::make_ASSIGN(loc); }
+{num}+\.{num}*      { return make_FRACTION(yytext, loc); }
+{num}+              { return make_DECIMAL(yytext, loc); }
+{ident}             { return make_IDENT(yytext, loc); }
+.                   { throw yy::parser::syntax_error
+                      (loc, "invalid character: " + std::string(yytext));
+                    }
+<<EOF>>             { return yy::parser::make_END(loc); }
+
 %%
 
+yy::parser::symbol_type make_DECIMAL(const std::string& s, const yy::parser::location_type& loc) {
+  std::unique_ptr<decimal> temp = std::make_unique<decimal>(std::strtoll(yytext, NULL, 10));
+  return yy::parser::make_DECIMAL(std::move(temp), loc);
+}
+
+yy::parser::symbol_type make_FRACTION(const std::string& s, const yy::parser::location_type& loc) {
+  std::unique_ptr<fraction> temp = std::make_unique<fraction>(std::strtold(yytext, NULL));
+  return yy::parser::make_FRACTION(std::move(temp), loc);
+}
+
+yy::parser::symbol_type make_IDENT(const std::string& s, const yy::parser::location_type& loc) {
+  std::unique_ptr<identifier> temp = std::make_unique<identifier>(s);
+  return yy::parser::make_IDENT(std::move(temp), loc);
+}
+
+
+void driver::scan_begin() {
+  if (file_name.empty() || file_name == "-")
+    yyin = stdin;
+  else if (!(yyin = fopen(file_name.c_str(), "r"))) {
+      std::cerr << "cannot open " << file_name << ": " << strerror(errno) << '\n';
+      exit (EXIT_FAILURE);
+    }
+}
+
+void driver::scan_end() {
+  fclose(yyin);
+}
