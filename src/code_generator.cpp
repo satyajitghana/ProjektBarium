@@ -69,6 +69,8 @@ void codegen_context::generate_code(std::shared_ptr<block> root) {
     codegen_context::Builder.CreateRet(root->code_gen());
     this->blocks.pop();
 
+
+    std::cout << "Generating LLVM IR: " << "\n";
     // print the IR
     codegen_context::TheModule->print(llvm::errs(), nullptr);
 

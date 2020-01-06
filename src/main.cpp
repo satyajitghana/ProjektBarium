@@ -23,6 +23,5 @@ int main(int argc, char* argv[]) {
 
     codegen_context ctx;
 
-    std::cout << "LLVM IR Code : " << "\n";
     ctx.generate_code(program_block);
 }
