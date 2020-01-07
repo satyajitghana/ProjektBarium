@@ -35,7 +35,7 @@ llvm::Value* binary_operator::code_gen() {
     llvm::Value* R = this->rhs->code_gen();
 
     switch (this->op) {
-        case '+': return codegen_context::Builder.CreateFAdd(L, R, "addtmp");
+        case '+': return codegen_context::Builder.CreateAdd(L, R, "addtmp");
         case '-': return codegen_context::Builder.CreateFSub(L, R, "subtmp");
         case '*': return codegen_context::Builder.CreateFMul(L, R, "multmp");
     }

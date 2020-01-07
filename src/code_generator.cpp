@@ -30,31 +30,12 @@ std::unique_ptr<llvm::legacy::FunctionPassManager> codegen_context::TheFPM;
 
 void codegen_context::generate_code(std::shared_ptr<block> root) {
 
-    /*
-    // Create the JIT Engine
-    auto myModule = std::make_unique<llvm::Module>("Bairum-JIT", codegen_context::TheContext);
-    // auto* module = myModule.get();
-    codegen_context::TheModule = myModule.get();
-
-    llvm::TargetOptions Opts;
-    std::unique_ptr<llvm::RTDyldMemoryManager> MemMgr(new llvm::SectionMemoryManager());
-
-    // Create JIT engine
-    llvm::EngineBuilder factory(std::move(myModule));
-    factory.setEngineKind(llvm::EngineKind::JIT);
-    factory.setTargetOptions(Opts);
-    factory.setMCJITMemoryManager(std::move(MemMgr));
-    auto executionEngine = std::unique_ptr<llvm::ExecutionEngine>(factory.create());
-    // seg fault
-    codegen_context::TheModule->setDataLayout(executionEngine->getDataLayout());
-    */
-
     // create the entry function aka the main function
 
     // create the argument list
     std::vector<llvm::Type*> argTypes;
     // create the function prototype/signature
-    llvm::FunctionType* funcType = llvm::FunctionType::get(codegen_context::Builder.getVoidTy(), argTypes, false);
+    llvm::FunctionType* funcType = llvm::FunctionType::get(codegen_context::Builder.getInt64Ty(), argTypes, false);
     
     // create the main_function
     this->main_function = llvm::Function::Create(funcType, llvm::Function::ExternalLinkage, "main", codegen_context::TheModule.get());
