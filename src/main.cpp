@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <cstdlib>
 
 #include "driver.hpp"
 #include "ast_structures.hpp"
@@ -28,6 +29,7 @@
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Support/TargetRegistry.h"
 #include "llvm/Support/TargetSelect.h"
+#include "llvm/Support/CommandLine.h"
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/Target/TargetOptions.h"
 
@@ -38,8 +40,30 @@ extern std::shared_ptr<block> program_block;
 
 int main(int argc, char* argv[]) {
 
+    using namespace llvm;
+
+    // hide all the preset command line options that llvm takes
+    llvm::cl::OptionCategory CompilerCategory("Compiler Options", "Options for controlling the compilation process.");
+    llvm::cl::HideUnrelatedOptions(CompilerCategory);
+
+    cl::opt<std::string> InputFilename(cl::Positional, cl::desc("<input file>"), cl::value_desc("filename"), cl::init("-"));
+
+    // output file name of the executable and the object file
+    cl::opt<std::string> OutputFilename("o", cl::desc("Specify output filename"), cl::value_desc("filename"));
+
+    // parse the command line options
+    llvm::cl::ParseCommandLineOptions(argc, argv, "Barium Compiler\nUses STDIN if <input file> is not specified\n");
+
+    // initiate the driver
     driver drv;
-    drv.parse("-");
+    if (InputFilename.empty()) {
+        // parse stdin
+        drv.parse("-");
+    } else {
+        drv.parse(InputFilename);
+    }
+
+    std::string output_file = OutputFilename.empty() ? "output" : OutputFilename.getValue();
 
     codegen_context ctx;
 
@@ -71,19 +95,18 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    // we'll be building for generic machine
     auto CPU = "generic";
     auto Features = "";
 
     llvm::TargetOptions opt;
     auto RM = llvm::Optional<llvm::Reloc::Model>();
-    auto TheTargetMachine =
-        Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
+    auto TheTargetMachine = Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
 
     codegen_context::TheModule->setDataLayout(TheTargetMachine->createDataLayout());
 
-    auto Filename = "output.o";
     std::error_code EC;
-    llvm::raw_fd_ostream dest(Filename, EC, llvm::sys::fs::OF_None);
+    llvm::raw_fd_ostream dest(output_file + ".o", EC, llvm::sys::fs::OF_None);
 
     if (EC) {
         std::cerr << "Could not open file: " << EC.message();
@@ -100,13 +123,18 @@ int main(int argc, char* argv[]) {
     pass.run(*codegen_context::TheModule.get());
     dest.flush();
 
-    std::cerr << "Wrote " << Filename << "\n";
+    std::cerr << "Wrote: " << output_file << "\n";
 
+    std::system(("gcc " + output_file + ".o -o " + output_file).c_str());
+
+    std::cerr << "Generated Executable " << "output" << "\n";
+
+    /* creates executable, but linking doesn't work properly for now
     std::vector<const char*> args;
     args.push_back("barium");
     args.push_back("output.o");
 
     llvm::ArrayRef<const char*> Args(args);
-    lld::elf::link(Args, false);
+    lld::elf::link(Args, false);*/
 
 }

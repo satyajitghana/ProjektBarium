@@ -68,10 +68,10 @@ yy::parser::symbol_type make_IDENT(const std::string& s, const yy::parser::locat
 
 
 void driver::scan_begin() {
-  if (file_name.empty() || file_name == "-")
+  if (file.empty() || file == "-")
     yyin = stdin;
-  else if (!(yyin = fopen(file_name.c_str(), "r"))) {
-      std::cerr << "cannot open " << file_name << ": " << strerror(errno) << '\n';
+  else if (!(yyin = fopen(file.c_str(), "r"))) {
+      std::cerr << "cannot open " << file << ": " << strerror(errno) << '\n';
       exit (EXIT_FAILURE);
     }
 }

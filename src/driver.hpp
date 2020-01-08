@@ -21,7 +21,7 @@ class driver {
     int parse(const std::string& f);
 
     // name of the file being parsed
-    std::string file_name;
+    std::string file;
 
     // handling the scanner
     void scan_begin();

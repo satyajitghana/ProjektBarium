@@ -5,8 +5,8 @@
 driver::driver() { }
 
 int driver::parse(const std::string& f) {
-    file_name = f;
-    location.initialize(&file_name);
+    file = f;
+    location.initialize(&file);
 
     scan_begin();
 

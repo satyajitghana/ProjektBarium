@@ -20,3 +20,4 @@ Lexical Analyzer (Lex) -> Semantic Parsing (Bison) -> Assembly (LLVM) -> Executa
 - [ ] Add Boost Support
 - [ ] Add Docker Support
 - [X] Create a CI/CD Pipeline (partial)
+- [ ] Output executables instead of obj files
