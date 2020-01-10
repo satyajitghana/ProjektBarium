@@ -47,7 +47,7 @@ blank       [ \t\r]
 "("                 { return yy::parser::make_LPAREN(loc); }
 ")"                 { return yy::parser::make_RPAREN(loc); }
 ","                 { return yy::parser::make_COMMA(loc); }
-\"([^\\\"]|\\.)*\"  { return yy::parser::make_STRINGLIT(std::make_unique<stringlit>(yytext), loc); }
+\"(\\.|[^"\\])*\"   { return yy::parser::make_STRINGLIT(std::make_unique<stringlit>(yytext), loc); }
 #.*                 /* single line comment */
 .                   { throw yy::parser::syntax_error
                       (loc, "invalid character: " + std::string(yytext));

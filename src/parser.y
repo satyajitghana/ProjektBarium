@@ -52,7 +52,7 @@
 %token  <std::unique_ptr<identifier>>   IDENT       "identifier"
 %token  <std::unique_ptr<decimal>>      DECIMAL     "decimal"
 %token  <std::unique_ptr<fraction>>     FRACTION    "fraction"
-%token  <std::unique_ptr<stringlit>>   STRINGLIT   "stringlit"
+%token  <std::unique_ptr<stringlit>>    STRINGLIT   "stringlit"
 %nterm  <std::unique_ptr<expression>>   expr
 %nterm  <std::unique_ptr<expression>>   literals
 %nterm  <std::unique_ptr<expression>>   binop_expr
