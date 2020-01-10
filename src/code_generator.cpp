@@ -30,6 +30,21 @@ std::unique_ptr<llvm::legacy::FunctionPassManager> codegen_context::TheFPM;
 
 void codegen_context::generate_code(std::shared_ptr<block> root) {
 
+    /*
+    some testing
+    using namespace llvm;
+    FunctionType* funcType = FunctionType::get(codegen_context::Builder.getInt64Ty(), {}, false);
+    this->main_function = Function::Create(funcType, GlobalValue::ExternalLinkage, "__main", codegen_context::TheModule.get());
+    BasicBlock* entryBlock = BasicBlock::Create(codegen_context::TheContext, "__main", this->main_function);
+
+    this->blocks.emplace(std::make_unique<basic_block>(entryBlock));
+    codegen_context::Builder.SetInsertPoint(entryBlock);
+    codegen_context::Builder.CreateRet(root->code_gen());
+    this->blocks.pop();
+
+    codegen_context::TheModule->print(llvm::errs(), nullptr);
+    */
+
     // create the entry function aka the main function
 
     // create the argument list
@@ -49,7 +64,6 @@ void codegen_context::generate_code(std::shared_ptr<block> root) {
     // root->code_gen(); // generate code for the entire tree
     codegen_context::Builder.CreateRet(root->code_gen());
     this->blocks.pop();
-
 
     std::cout << "Generating LLVM IR: " << "\n";
     // print the IR

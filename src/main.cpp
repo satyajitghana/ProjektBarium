@@ -63,18 +63,15 @@ int main(int argc, char* argv[]) {
         drv.parse(InputFilename);
     }
 
+    // return 0;
+
     std::string output_file = OutputFilename.empty() ? "output" : OutputFilename.getValue();
 
     codegen_context ctx;
 
     ctx.generate_code(program_block);
 
-    // Initialize the target registry etc.
-    // llvm::InitializeAllTargetInfos();
-    // llvm::InitializeAllTargets();
-    // llvm::InitializeAllTargetMCs();
-    // llvm::InitializeAllAsmParsers();
-    // llvm::InitializeAllAsmPrinters();
+    // return 0;
 
     // Initialize the Native Target Machine
     llvm::InitializeNativeTarget();

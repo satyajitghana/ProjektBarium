@@ -46,6 +46,15 @@
         llvm::Value* code_gen();
     };
 
+    class stringlit : public expression {
+        public:
+        std::string value;
+        stringlit(std::string value) : value(value) {}
+        stringlit();
+
+        llvm::Value* code_gen();
+    };
+
     class binary_operator : public expression {
         public:
         char op = 0;
@@ -80,6 +89,17 @@
         std::unique_ptr<expression> rhs = nullptr;
         assignment(std::unique_ptr<identifier> lhs, std::unique_ptr<expression> rhs) : lhs(std::move(lhs)), rhs(std::move(rhs)) {}
         assignment() {}
+
+        llvm::Value* code_gen();
+    };
+
+    class function_call : public expression {
+        public:
+        std::unique_ptr<identifier> ident;
+        std::unique_ptr<std::vector<std::unique_ptr<expression>>> args_list;
+
+        function_call(std::unique_ptr<identifier> ident, std::unique_ptr<std::vector<std::unique_ptr<expression>>> args_list) : ident(std::move(ident)), args_list(std::move(args_list)) {}
+        function_call() {}
 
         llvm::Value* code_gen();
     };

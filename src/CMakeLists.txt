@@ -53,8 +53,8 @@ target_link_libraries(barium PRIVATE ${llvm_libs})
 # lets say you want to link liblldELF then use find_library(YOUR_LIB_NAME lldELF)
 # then later you can link ${YOUR_LIB_NAME} to the executable, pretty neat
 # you can print the list of libraries using : /sbin/ldconfig -p
-find_library(LLDELF_LIB lldELF)
-target_link_libraries(barium PUBLIC "${LLDELF_LIB}")
+# find_library(LLDELF_LIB lldELF)
+# target_link_libraries(barium PUBLIC "${LLDELF_LIB}")
 
 set_property(TARGET barium PROPERTY CXX_STANDARD 17)
 set_property(TARGET barium PROPERTY CXX_STANDARD_REQUIRED ON)

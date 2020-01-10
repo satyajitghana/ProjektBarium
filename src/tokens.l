@@ -42,8 +42,13 @@ blank       [ \t\r]
 "/"                 { return yy::parser::make_DIV(loc); }
 "="                 { return yy::parser::make_ASSIGN(loc); }
 {num}+\.{num}*      { return make_FRACTION(yytext, loc); }
-{num}+              { return make_DECIMAL(yytext, loc); }
+-?{num}+            { return make_DECIMAL(yytext, loc); }
 {ident}             { return make_IDENT(yytext, loc); }
+"("                 { return yy::parser::make_LPAREN(loc); }
+")"                 { return yy::parser::make_RPAREN(loc); }
+","                 { return yy::parser::make_COMMA(loc); }
+\"([^\\\"]|\\.)*\"  { return yy::parser::make_STRINGLIT(std::make_unique<stringlit>(yytext), loc); }
+#.*                 /* single line comment */
 .                   { throw yy::parser::syntax_error
                       (loc, "invalid character: " + std::string(yytext));
                     }

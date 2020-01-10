@@ -29,6 +29,12 @@ llvm::Value* fraction::code_gen() {
     return llvm::ConstantFP::get(codegen_context::TheContext, llvm::APFloat((double)this->value));
 }
 
+llvm::Value* stringlit::code_gen() {
+    std::cout << "[producing string literal for: " << value << " ]" << "\n";
+    // return codegen_context::Builder.CreateGlobalString(llvm::StringRef(this->value));
+    return nullptr;
+}
+
 llvm::Value* binary_operator::code_gen() {
     llvm::Value* L = this->lhs->code_gen();
     std::cout << "[producing binary_operator for: " << op << " ]" << "\n";
@@ -40,20 +46,39 @@ llvm::Value* binary_operator::code_gen() {
         case '*': return codegen_context::Builder.CreateFMul(L, R, "multmp");
     }
 
-    return nullptr;
+    return llvm::ConstantInt::get(codegen_context::TheContext, llvm::APInt(64, 0));
 }
 
 llvm::Value* identifier::code_gen() {
     std::cout << "[producing identifier for: " << name << " ]" << "\n";
-    if (codegen_context::NamedValues.find(this->name) == codegen_context::NamedValues.end()) {
-        std::cerr << "undeclared variable: " << this->name << "\n";
-        return nullptr;
-    }
+    // if (codegen_context::NamedValues.find(this->name) == codegen_context::NamedValues.end()) {
+    //     std::cerr << "undeclared variable: " << this->name << "\n";
+    //     return nullptr;
+    // }
 
-    return nullptr;
+    return llvm::ConstantInt::get(codegen_context::TheContext, llvm::APInt(64, 0));
 }
 
 llvm::Value* assignment::code_gen() {
     std::cout << "[producing assignment for: " << lhs->name << " ]" << "\n";
     return this->rhs->code_gen();
+}
+
+llvm::Value* function_call::code_gen() {
+    std::cout << "[producing function call for: " << this->ident->name <<" ]" << "\n";
+    std::vector<llvm::Value*> args;
+    for (auto& arg: *(this->args_list)) {
+        args.push_back((*arg).code_gen());
+    }
+
+    using namespace llvm;
+
+    if (this->ident->name == "println") {
+        FunctionType* funcType = FunctionType::get(IntegerType::getInt32Ty(codegen_context::TheContext), PointerType::get(Type::getInt8Ty(codegen_context::TheContext), 0), true);
+        FunctionCallee CalleeF = codegen_context::TheModule->getOrInsertFunction("printf", funcType);
+
+        return codegen_context::Builder.CreateCall(CalleeF, args, "printfCall");
+    } else {
+        return nullptr;
+    }
 }

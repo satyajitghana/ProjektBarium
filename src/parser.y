@@ -45,16 +45,21 @@
     MINUS   "-"
     MUL     "*"
     DIV     "/"
+    LPAREN  "("
+    RPAREN  ")"
+    COMMA   ","
 
 %token  <std::unique_ptr<identifier>>   IDENT       "identifier"
 %token  <std::unique_ptr<decimal>>      DECIMAL     "decimal"
-%token  <std::unique_ptr<fraction>>     FRACTION    "fraction" 
+%token  <std::unique_ptr<fraction>>     FRACTION    "fraction"
+%token  <std::unique_ptr<stringlit>>   STRINGLIT   "stringlit"
 %nterm  <std::unique_ptr<expression>>   expr
 %nterm  <std::unique_ptr<expression>>   literals
 %nterm  <std::unique_ptr<expression>>   binop_expr
 %nterm  <std::unique_ptr<block>>        stmts
 %nterm  <std::unique_ptr<block>>        program
 %nterm  <std::unique_ptr<statement>>    stmt
+%nterm  <std::unique_ptr<std::vector<std::unique_ptr<expression>>>> call_args
 
 %printer { yyo << $$; } <*>;
 
@@ -62,7 +67,7 @@
 
 %code {
     #define DEBUG_PARSER
-    #undef DEBUG_PARSER
+    // #undef DEBUG_PARSER
 }
 
 %%
@@ -123,22 +128,51 @@ literals    : "decimal"  {
                 }
             | "fraction" {
 
+                $$ = std::move($1);
                 
                 }
+            | "stringlit" {
+                
+                #ifdef DEBUG_PARSER
+                std::cout << "stringlit: " << cnt++ << "\n";
+                #endif
+
+                $$ = std::move($1);
+
+            }
             ;
 
 expr        : "identifier" "=" expr {
 
+                // assignment
                 #ifdef DEBUG_PARSER
                 std::cout << "identifier = expr: " << cnt++ << "\n";
                 #endif
 
-                // $$ = std::make_unique<expression>();
                 $$ = std::make_unique<assignment>(std::move($1), std::move($3));
 
                 }
+
+            | "identifier" "(" call_args ")" {
+                // function call
+                #ifdef DEBUG_PARSER
+                std::cout << "identifier(call_args): " << cnt++ << "\n";
+                #endif
+
+                $$ = std::make_unique<function_call>(std::move($1), std::move($3));
+
+                }
+            | "identifier" {
+                // just an identifier
+                #ifdef DEBUG_PARSER
+                std::cout << "identifier: " << cnt++ << "\n";
+                #endif
+
+                }
+
             | literals {
 
+                // literal, either decimal or fractional
                 #ifdef DEBUG_PARSER
                 std::cout << "literals: " << cnt++ << "\n";
                 #endif
@@ -147,11 +181,38 @@ expr        : "identifier" "=" expr {
 
                 }
             | binop_expr {
+
+                // some binary operation
                 #ifdef DEBUG_PARSER
                 std::cout << "binop_expr: " << cnt++ << "\n";
                 #endif
 
                 $$ = std::move($1);
+
+                }
+            | "(" expr ")" { $$ = std::move($2); }
+            ;
+
+call_args   : /*blank*/ {
+                #ifdef DEBUG_PARSER
+                std::cout << "call_args<blank>: " << cnt++ << "\n";
+                #endif
+                $$ = std::make_unique<std::vector<std::unique_ptr<expression>>>();
+                }
+            | expr {
+                #ifdef DEBUG_PARSER
+                std::cout << "call_args: " << cnt++ << "\n";
+                #endif
+                $$ = std::make_unique<std::vector<std::unique_ptr<expression>>>();
+                $$->push_back(std::move($1));
+
+                }
+            | call_args "," expr {
+            
+                #ifdef DEBUG_PARSER
+                std::cout << "call_args, args: " << cnt++ << "\n";
+                #endif
+                $1->push_back(std::move($3));
 
                 }
             ;
