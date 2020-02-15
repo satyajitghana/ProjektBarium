@@ -23,7 +23,7 @@ jobs:
         pip install conan
         pip install conan_package_tools
     - uses: actions/checkout@master
-    - name: install deps
+    - name: Install dependencies
       run: |
         sudo apt-get install cmake
         sudo apt-get install flex
@@ -33,6 +33,9 @@ jobs:
         wget http://ftp.gnu.org/gnu/bison/bison-3.5.tar.gz
         tar -zxvf bison-3.5.tar.gz
         cd bison-3.5 && ./configure && make && sudo make install 
-    - name: build the target
+    - name: Build the target
       run: |
         make
+    - Run: Test run
+      run: |
+        ./build/src/barium test_files/test.bar
