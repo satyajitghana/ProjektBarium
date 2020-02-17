@@ -59,6 +59,8 @@ blank       [ \t\r]
 "and"               { return yy::parser::make_AND(loc); }
 "or"                { return yy::parser::make_OR(loc); }
 "not"               { return yy::parser::make_NOT(loc); }
+"if"                { return yy::parser::make_IF(loc); }
+"else"              { return yy::parser::make_ELSE(loc); }
 "+"                 { return yy::parser::make_PLUS(loc); } 
 "-"                 { return yy::parser::make_MINUS(loc); }
 "*"                 { return yy::parser::make_MUL(loc); }   
@@ -69,6 +71,8 @@ blank       [ \t\r]
 {ident}             { return make_IDENT(yytext, loc); }
 "("                 { return yy::parser::make_LPAREN(loc); }
 ")"                 { return yy::parser::make_RPAREN(loc); }
+"{"                 { return yy::parser::make_LBRACE(loc); }
+"}"                 { return yy::parser::make_RBRACE(loc); }
 ","                 { return yy::parser::make_COMMA(loc); }
 #.*                 /* eat everything; single line comment */
 .                   { throw yy::parser::syntax_error

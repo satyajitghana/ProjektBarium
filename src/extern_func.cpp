@@ -24,6 +24,6 @@ extern "C" DECLSPEC void displayln(char* str, ...) {
 }
 
 // TODO: implement read
-extern "C" DECLSPEC void read(char* str, ...) {
+// extern "C" DECLSPEC void read(char* str, ...) {
 
-}
+// }

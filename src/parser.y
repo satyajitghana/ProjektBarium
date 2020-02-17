@@ -43,6 +43,8 @@
     AND     "and"
     OR      "or"
     NOT     "not"
+    IF      "if"
+    ELSE    "else"
     ASSIGN  "="
     PLUS    "+"
     MINUS   "-"
@@ -50,6 +52,8 @@
     DIV     "/"
     LPAREN  "("
     RPAREN  ")"
+    LBRACE  "{"
+    RBRACE  "}"
     COMMA   ","
 
 %token  <std::unique_ptr<identifier>>   IDENT       "identifier"
@@ -62,6 +66,7 @@
 %nterm  <std::unique_ptr<expression>>   unaryop_expr
 %nterm  <std::unique_ptr<block>>        stmts
 %nterm  <std::unique_ptr<block>>        program
+%nterm  <std::unique_ptr<block>>        block
 %nterm  <std::unique_ptr<statement>>    stmt
 %nterm  <std::unique_ptr<std::vector<std::unique_ptr<expression>>>> call_args
 %nterm  <std::unique_ptr<variable_declaration>> var_decl
@@ -148,8 +153,26 @@ stmt        : expr {
                 #endif
 
                 $$ = std::move($1);
+                }
+            | conditional {
+                // $$ = std::move($1);
             }
             ;
+
+// a block
+
+block       : "{" stmts "}" { $$ = std::move($2); }
+            ;
+
+// conditional statement
+
+conditional     : "if" expr block "else" block {
+                    // $$ = std::make_unique
+                    }
+                | "if" expr block {
+
+                }
+                ;
 
 // variable declaration and/or assignment
 
