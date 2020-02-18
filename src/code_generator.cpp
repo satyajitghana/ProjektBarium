@@ -41,6 +41,8 @@ void codegen_context::generate_code(std::shared_ptr<block> root) {
     std::cout << "Generating LLVM IR: " << "\n";
 
     std::cout << "setting up in-builts\n";
+
+    // add the inbuilt functions to the module
     setup_inbuilts();
 
     // create the argument list
@@ -59,6 +61,8 @@ void codegen_context::generate_code(std::shared_ptr<block> root) {
     codegen_context::Builder.SetInsertPoint(entryBlock);
     root->code_gen(this); // generate code for the entire tree
     // codegen_context::Builder.CreateRet(blocks.top()->block);
+
+    // set the return of main function to decimal 1
     codegen_context::Builder.CreateRet(llvm::ConstantInt::get(codegen_context::TheContext,
                                   llvm::APInt(64, 1)));
     this->blocks.pop();
@@ -83,16 +87,22 @@ llvm::GenericValue codegen_context::run_code() {
     factory.setTargetOptions(Opts);
     factory.setMCJITMemoryManager(std::move(MemMgr));
 
+    // setup the execution engine
     auto execution_engine = std::unique_ptr<ExecutionEngine>(factory.create());
+    
+    // set the memory layout of the module to same as of the engine
     module->setDataLayout(execution_engine->getDataLayout());
 
+    // add the inbuilt functions to the execution engine
     for (auto[fun, fun_addr] : this->inbuilts_info) {
         execution_engine->addGlobalMapping(fun, fun_addr);
     }
 
     execution_engine->finalizeObject();
+
     std::vector<GenericValue> noargs;
 
+    // fetch the returned value of the main funciton
     GenericValue val_ret = execution_engine->runFunction(this->main_function, noargs);
 
     std::cout << "Code was run!" << '\n';
@@ -119,4 +129,14 @@ void codegen_context::setup_inbuilts() {
     }
     
     this->inbuilts_info.push_back({display_func, (void*)display});
+
+    // setup "displayln" function
+    Function* displayln_func = Function::Create(display_ft, Function::ExternalLinkage, "displayln", codegen_context::TheModule.get());
+
+    i = displayln_func->arg_begin();
+    if (i != displayln_func->arg_end()) {
+        i->setName("format_str");
+    }
+    
+    this->inbuilts_info.push_back({displayln_func, (void*)displayln});
 }

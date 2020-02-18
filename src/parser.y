@@ -205,26 +205,28 @@ expr        : "identifier" "=" expr {
             | "(" expr ")" { $$ = std::move($2); }
             ;
 
-call_args   : /*blank*/ {
+call_args[args_list]   : /*blank*/ {
                 #ifdef DEBUG_PARSER
                 std::cout << "call_args<blank>: " << cnt++ << "\n";
                 #endif
-                $$ = std::make_unique<std::vector<std::unique_ptr<expression>>>();
+                $args_list = std::make_unique<std::vector<std::unique_ptr<expression>>>();
                 }
             | expr {
                 #ifdef DEBUG_PARSER
                 std::cout << "call_args: " << cnt++ << "\n";
                 #endif
-                $$ = std::make_unique<std::vector<std::unique_ptr<expression>>>();
-                $$->push_back(std::move($1));
+                $args_list = std::make_unique<std::vector<std::unique_ptr<expression>>>();
+                $args_list->push_back(std::move($1));
 
                 }
-            | call_args "," expr {
+            | call_args[arg] "," expr {
             
                 #ifdef DEBUG_PARSER
                 std::cout << "call_args, args: " << cnt++ << "\n";
                 #endif
-                $1->push_back(std::move($3));
+                $arg->push_back(std::move($3));
+
+                $args_list = std::move($arg);
 
                 }
             ;

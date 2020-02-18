@@ -8,9 +8,17 @@
     #include "driver.hpp"
     #include "parser.hpp"
     #include "ast_structures.hpp"
+
+    // temporary for storing the string literal
+    std::string g_str;
+
 %}
 
+
 %option noyywrap nounput noinput batch
+
+%x str
+%s normal
 
 %{
     yy::parser::symbol_type make_DECIMAL(const std::string& s, const yy::parser::location_type& loc);
@@ -33,6 +41,18 @@ blank       [ \t\r]
     yy::location& loc = drv.location;
     loc.step();
 %}
+ //<- one leading blank space; comments should start one blank space after
+ /* state automata for string literal */
+
+'                   { g_str = ""; BEGIN(str); } /*eat '*/
+<str>\'             { BEGIN(normal); return yy::parser::make_STRINGLIT(std::make_unique<stringlit>(g_str), loc); }
+<str>\\n            g_str += "\n";
+<str>\\t            g_str += "\t";
+<str>\\r            g_str += "\r";
+<str>\\\'           g_str += "'";
+<str>\\(.|\n)       g_str += yytext[1];
+<str>[^\\']+        g_str += std::string(yytext);
+
 
 {blank}+            { loc.step(); }
 \n+                 { loc.lines(yyleng); loc.step(); }
@@ -47,8 +67,7 @@ blank       [ \t\r]
 "("                 { return yy::parser::make_LPAREN(loc); }
 ")"                 { return yy::parser::make_RPAREN(loc); }
 ","                 { return yy::parser::make_COMMA(loc); }
-\"(\\.|[^"\\])*\"   { return yy::parser::make_STRINGLIT(std::make_unique<stringlit>(yytext), loc); }
-#.*                 /* single line comment */
+#.*                 /* eat everything; single line comment */
 .                   { throw yy::parser::syntax_error
                       (loc, "invalid character: " + std::string(yytext));
                     }
