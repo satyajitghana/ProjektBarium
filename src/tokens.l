@@ -56,6 +56,9 @@ blank       [ \t\r]
 
 {blank}+            { loc.step(); }
 \n+                 { loc.lines(yyleng); loc.step(); }
+"and"               { return yy::parser::make_AND(loc); }
+"or"                { return yy::parser::make_OR(loc); }
+"not"               { return yy::parser::make_NOT(loc); }
 "+"                 { return yy::parser::make_PLUS(loc); } 
 "-"                 { return yy::parser::make_MINUS(loc); }
 "*"                 { return yy::parser::make_MUL(loc); }   

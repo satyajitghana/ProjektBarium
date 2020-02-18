@@ -30,7 +30,7 @@
 class basic_block {
     public:
     llvm::BasicBlock* block;
-    std::map<std::string, llvm::Value*> locals;
+    std::map<std::string, llvm::AllocaInst*> locals;
 
     basic_block(llvm::BasicBlock* block) : block(block) {}
 };
@@ -57,5 +57,9 @@ class codegen_context {
     void setup_inbuilts();
 
     codegen_context();
+
+    llvm::Type* type_of(const identifier* type);
+
+    basic_block* current_block() { return this->blocks.top().get(); }
 
 };

@@ -1,6 +1,8 @@
 #include "ast_structures.hpp"
 #include "code_generator.hpp"
 
+#include "parser.hpp"
+
 #include <typeinfo>
 
 llvm::Value* block::code_gen(codegen_context* ctx) {
@@ -72,42 +74,133 @@ llvm::Value* stringlit::code_gen(codegen_context* ctx) {
     return const_ptr_8;
 }
 
+
 llvm::Value* binary_operator::code_gen(codegen_context* ctx) {
+
+    using namespace llvm;
+
     llvm::Value* L = this->lhs->code_gen(ctx);
     std::cout << "[producing binary_operator for: " << op << " ]"
               << "\n";
     llvm::Value* R = this->rhs->code_gen(ctx);
 
-    switch (this->op) {
-        case '+':
-            return codegen_context::Builder.CreateAdd(L, R, "addtmp");
-        case '-':
-            return codegen_context::Builder.CreateFSub(L, R, "subtmp");
-        case '*':
-            return codegen_context::Builder.CreateFMul(L, R, "multmp");
+
+    // check if the value TypeIDs are same for left and right
+    // if they are different cast them to doubles, since we only have
+    // 2 data types, this works
+    if (L->getType()->getTypeID() != R->getType()->getTypeID()) {
+
+        auto doubleTy = ctx->Builder.getDoubleTy();
+
+        // cast RHS
+        auto cast_instr = CastInst::getCastOpcode(R, true, doubleTy, true);
+        // CastOp, Value*, Type*, Twine
+        R = ctx->Builder.CreateCast(cast_instr, R, doubleTy, "cast_double");
+
+        // cast LHS
+        cast_instr = CastInst::getCastOpcode(L, true, doubleTy, true);
+        L = ctx->Builder.CreateCast(cast_instr, L, doubleTy, "cast_double");
     }
 
-    return llvm::ConstantInt::get(codegen_context::TheContext,
-                                  llvm::APInt(64, 0));
+    bool is_double = R->getType()->isFloatingPointTy();
+
+    Instruction::BinaryOps op_instr;
+    switch (this->op) {
+        case '+':
+            op_instr = is_double ? Instruction::FAdd : Instruction::Add;
+            break;
+        case '-':
+            op_instr = is_double ? Instruction::FSub : Instruction::Sub;
+            break;
+        case '*':
+            op_instr = is_double ? Instruction::FMul : Instruction::Mul;
+            break;
+        case '/':
+            op_instr = is_double ? Instruction::FDiv : Instruction::SDiv;
+            break;
+        // these are short circuited logical operators
+        case '&':
+            op_instr = Instruction::And;
+            break;
+        case '|':
+            op_instr = Instruction::Or;
+            break;
+        default: {
+            std::cerr << "unknown operator !" << '\n';
+            return nullptr;
+        }
+    }
+
+    Value* bin_op = ctx->Builder.CreateBinOp(op_instr, L, R, "math_tmp");
+
+    return bin_op;
+}
+
+llvm::Value* unary_operator::code_gen(codegen_context* ctx) {
+    using namespace llvm;
+
+    std::cout << "[producing unary operator for: " << this->op << " ]" << "\n";
+
+    Value* expr = this->expr->code_gen(ctx);
+
+    // Instruction::UnaryOps op_instr;
+    Value* un_op = nullptr;
+
+    switch(this->op) {
+        // does bitwise not
+        case '!': {
+            Value* neg_one = llvm::ConstantInt::get(ctx->TheContext,
+                                  llvm::APInt(64, -1));
+
+            auto instr = Instruction::Xor;
+            un_op = ctx->Builder.CreateBinOp(instr, neg_one, expr, "not_temp");
+            }
+            break;
+        default: {
+            std::cerr << "unknown operator !" << '\n';
+            return nullptr;
+        }
+    }
+
+    // Value* un_op = ctx->Builder.CreateUnOp(op_instr, expr, "unary_tmp");
+
+    return un_op;
 }
 
 llvm::Value* identifier::code_gen(codegen_context* ctx) {
-    std::cout << "[producing identifier for: " << name << " ]"
-              << "\n";
-    // if (codegen_context::NamedValues.find(this->name) ==
-    // codegen_context::NamedValues.end()) {
-    //     std::cerr << "undeclared variable: " << this->name << "\n";
-    //     return nullptr;
-    // }
+    using namespace llvm;
 
-    return llvm::ConstantInt::get(codegen_context::TheContext,
-                                  llvm::APInt(64, 0));
+    std::cout << "[producing identifier for: " << this->name << " ]"
+              << "\n";
+
+    // check if the variable does not exist in the current locals
+    if (ctx->current_block()->locals.find(this->name) ==  ctx->current_block()->locals.end()) {
+        std::cerr << "undeclared variable "<< this->name << " !" << '\n';
+
+        return nullptr;
+    }
+
+    // load the variable
+    Value* loaded_var = ctx->Builder.CreateLoad(ctx->current_block()->locals[this->name], this->name.c_str());
+
+    return loaded_var;
 }
 
 llvm::Value* assignment::code_gen(codegen_context* ctx) {
+    using namespace llvm;
+
     std::cout << "[producing assignment for: " << lhs->name << " ]"
               << "\n";
-    return this->rhs->code_gen(ctx);
+    // check if the variable does not exist in the current locals
+    if (ctx->current_block()->locals.find(lhs->name) ==  ctx->current_block()->locals.end()) {
+        std::cerr << "undeclared variable "<< lhs->name << " !" << '\n';
+
+        return nullptr;
+    }
+
+    StoreInst* si = ctx->Builder.CreateStore(this->rhs->code_gen(ctx), ctx->current_block()->locals[this->lhs->name]);
+
+    return si;
 }
 
 llvm::Value* function_call::code_gen(codegen_context* ctx) {
@@ -150,4 +243,31 @@ llvm::Value* function_call::code_gen(codegen_context* ctx) {
     // } else {
     //     return nullptr;
     // }
+}
+
+llvm::Value* variable_declaration::code_gen(codegen_context* ctx) {
+
+    using namespace llvm;
+
+    std::cout << "[producing variable declaration for: " << this->ident->name << " ]"
+              << "\n";
+    if (ctx->current_block()->locals[this->ident->name] != nullptr) {
+        std::cout << "error ! " << this->ident->name << " already declared" << '\n';
+
+        return nullptr;
+    }
+
+    IRBuilder<> TmpB(ctx->current_block()->block, ctx->current_block()->block->begin());
+
+    AllocaInst* alloc = TmpB.CreateAlloca(ctx->type_of(this->type.get()), nullptr, this->ident->name);
+
+    ctx->current_block()->locals[this->ident->name] = alloc;
+
+    // now create an assignment operation for the above allocation
+    if (this->assign_expr != nullptr) {
+        assignment assign(std::make_unique<identifier>(this->ident->name), std::move(this->assign_expr));
+        assign.code_gen(ctx);
+    }
+
+    return alloc;
 }

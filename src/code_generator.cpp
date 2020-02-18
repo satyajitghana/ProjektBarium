@@ -140,3 +140,13 @@ void codegen_context::setup_inbuilts() {
     
     this->inbuilts_info.push_back({displayln_func, (void*)displayln});
 }
+
+llvm::Type* codegen_context::type_of(const identifier* type) {
+    if (type->name.compare("decimal") == 0) {
+        return this->Builder.getInt64Ty();
+    } else if (type->name.compare("fraction") == 0) {
+        return this->Builder.getDoubleTy();
+    }
+
+    return this->Builder.getVoidTy();
+}

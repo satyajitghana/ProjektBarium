@@ -12,7 +12,7 @@ extern "C" DECLSPEC void display(char* str, ...) {
 }
 
 extern "C" DECLSPEC void displayln(char* str, ...) {
-    char*   outstr;
+    char* outstr;
     va_list argp;
     va_start(argp, str);
     outstr = (char*)malloc(strlen(str) + 2);
@@ -21,4 +21,9 @@ extern "C" DECLSPEC void displayln(char* str, ...) {
     vprintf(outstr, argp);
     va_end(argp);
     free(outstr);
+}
+
+// TODO: implement read
+extern "C" DECLSPEC void read(char* str, ...) {
+
 }

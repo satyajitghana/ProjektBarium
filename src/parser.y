@@ -40,6 +40,9 @@
 %define api.token.prefix{TOK_}
 %token 
     END  0  "end of file"
+    AND     "and"
+    OR      "or"
+    NOT     "not"
     ASSIGN  "="
     PLUS    "+"
     MINUS   "-"
@@ -56,10 +59,12 @@
 %nterm  <std::unique_ptr<expression>>   expr
 %nterm  <std::unique_ptr<expression>>   literals
 %nterm  <std::unique_ptr<expression>>   binop_expr
+%nterm  <std::unique_ptr<expression>>   unaryop_expr
 %nterm  <std::unique_ptr<block>>        stmts
 %nterm  <std::unique_ptr<block>>        program
 %nterm  <std::unique_ptr<statement>>    stmt
 %nterm  <std::unique_ptr<std::vector<std::unique_ptr<expression>>>> call_args
+%nterm  <std::unique_ptr<variable_declaration>> var_decl
 
 %printer { yyo << $$; } <*>;
 
@@ -72,8 +77,12 @@
 
 %%
 
+// left associativity
+
 %left "+" "-";
 %left "*" "/";
+
+// program consists of statements
 
 program     : stmts {
 
@@ -89,6 +98,9 @@ program     : stmts {
 
                 }
             ;
+
+
+// statements can consist of single or multiple statements
 
 stmts[block]       : stmt {
 
@@ -119,6 +131,8 @@ stmts[block]       : stmt {
                 }
             ;
 
+// statement can be an expression or an variable declaration
+
 stmt        : expr {
                 #ifdef DEBUG_PARSER
                 std::cout << "expr: " << cnt++ << "\n";
@@ -127,7 +141,33 @@ stmt        : expr {
                 $$ = std::make_unique<expr_statement>(std::move($1));
 
                 }
+            | var_decl {
+
+                #ifdef DEBUG_PARSER
+                std::cout << "var_decl: " << cnt++ << "\n";
+                #endif
+
+                $$ = std::move($1);
+            }
             ;
+
+// variable declaration and/or assignment
+
+var_decl    : "identifier" "identifier" {
+                #ifdef DEBUG_PARSER
+                std::cout << "var_decl ident ident: " << cnt++ << "\n";
+                #endif
+                $$ = std::make_unique<variable_declaration>(std::move($1), std::move($2));
+            }    
+            | "identifier" "identifier" "=" expr {
+                #ifdef DEBUG_PARSER
+                std::cout << "var_decl ident ident = expr: " << cnt++ << "\n";
+                #endif
+                $$ = std::make_unique<variable_declaration>(std::move($1), std::move($2), std::move($4));
+            }
+            ;
+
+// all the literals, like integers, fractions and string literals
 
 literals    : "decimal"  {
 
@@ -154,6 +194,8 @@ literals    : "decimal"  {
             }
             ;
 
+// all the expression statements
+
 expr        : "identifier" "=" expr {
 
                 // assignment
@@ -169,6 +211,7 @@ expr        : "identifier" "=" expr {
                 // function call
                 #ifdef DEBUG_PARSER
                 std::cout << "identifier(call_args): " << cnt++ << "\n";
+                std::cout << $1->name << '\n';
                 #endif
 
                 $$ = std::make_unique<function_call>(std::move($1), std::move($3));
@@ -179,6 +222,9 @@ expr        : "identifier" "=" expr {
                 #ifdef DEBUG_PARSER
                 std::cout << "identifier: " << cnt++ << "\n";
                 #endif
+
+
+                $$ = std::move($1);
 
                 }
 
@@ -202,8 +248,19 @@ expr        : "identifier" "=" expr {
                 $$ = std::move($1);
 
                 }
+            | unaryop_expr {
+                // a boolean expression
+                #ifdef DEBUG_PARSER
+                std::cout << "uparyop_expr: " << cnt++ << '\n';
+                #endif
+
+                $$ = std::move($1);
+            }
             | "(" expr ")" { $$ = std::move($2); }
             ;
+
+// call arguments of a function
+// can be blank
 
 call_args[args_list]   : /*blank*/ {
                 #ifdef DEBUG_PARSER
@@ -231,7 +288,19 @@ call_args[args_list]   : /*blank*/ {
                 }
             ;
 
-binop_expr  : expr "+" expr {
+// binary operators
+
+binop_expr  : expr "and" expr {
+
+                $$ = std::make_unique<binary_operator>('&', std::move($1), std::move($3));
+
+                }
+            | expr "or" expr {
+
+                $$ = std::make_unique<binary_operator>('|', std::move($1), std::move($3));
+
+                }
+            | expr "+" expr {
 
                 #ifdef DEBUG_PARSER
                 std::cout << "expr + expr: " << cnt++ << "\n";
@@ -241,15 +310,34 @@ binop_expr  : expr "+" expr {
 
                 }
             | expr "-" expr {
-                $$ = std::make_unique<expression>();
+                $$ = std::make_unique<binary_operator>('-', std::move($1), std::move($3));
                 }
             | expr "*" expr {
-                $$ = std::make_unique<expression>();
+                $$ = std::make_unique<binary_operator>('*', std::move($1), std::move($3));
                 }
             | expr "/" expr {
-                $$ = std::make_unique<expression>();
+                $$ = std::make_unique<binary_operator>('/', std::move($1), std::move($3));
                 }
             ;
+
+// unary operations
+
+unaryop_expr    : "not" expr {
+                    $$ = std::make_unique<unary_operator>('!', std::move($2));
+                    }
+                ;
+
+// // boolean expression
+
+// boolean_expr    : expr "and" expr {
+
+//                     }
+//                 | expr "or" expr {
+
+//                     }
+//                 | expr "xor" expr {
+
+//                     }
 
 /* testing out a grammar */
 /*

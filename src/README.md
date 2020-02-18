@@ -1,5 +1,7 @@
 ## How the AST classes are defined
 
+`class_name: data_members`
+
 ```
 node
   └─ expression
@@ -12,5 +14,6 @@ node
         ├─ assignment: lhs, rhs
         └─ function_call: ident, args_list
   └─ statement
-        └─ expr_statement: expr
+        ├─ expr_statement: expr
+        └─ variable_declaration: type, ident, assign_expr
 ```

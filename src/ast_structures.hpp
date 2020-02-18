@@ -9,7 +9,18 @@
 // so forward declare codegen_context
 class codegen_context;
 
+// enum to keep track of which node is which
+enum class node_type {
+    decimal,
+    fraction
+};
+
+
+/// every class has to have a default constructor, since parser.y
+/// needs to create these objects without arguments first
+
 // namespace barium {
+
     class node {
         public:
             virtual ~node() {}
@@ -74,6 +85,16 @@ class codegen_context;
         llvm::Value* code_gen(codegen_context* ctx);
     };
 
+    class unary_operator : public expression {
+        public:
+        char op = 0;
+        std::unique_ptr<expression> expr = nullptr;
+        unary_operator(char op, std::unique_ptr<expression> expr) : op(op), expr(std::move(expr)) {}
+        unary_operator() {}
+
+        llvm::Value* code_gen(codegen_context* ctx);
+    };
+
     class identifier : public expression {
         public:
         std::string name;
@@ -111,4 +132,30 @@ class codegen_context;
 
         llvm::Value* code_gen(codegen_context* ctx);
     };
+
+    class variable_declaration : public statement {
+        public:
+        std::unique_ptr<identifier> type;
+        std::unique_ptr<identifier> ident;
+        std::unique_ptr<expression> assign_expr;
+
+        variable_declaration(
+            std::unique_ptr<identifier> type, 
+            std::unique_ptr<identifier> ident, 
+            std::unique_ptr<expression> assign_expr) :
+            type(std::move(type)),
+            ident(std::move(ident)),
+            assign_expr(std::move(assign_expr)) {}
+
+        variable_declaration(
+            std::unique_ptr<identifier> type, 
+            std::unique_ptr<identifier> ident) :
+            type(std::move(type)),
+            ident(std::move(ident)) {}
+
+        variable_declaration() {}
+
+        llvm::Value* code_gen(codegen_context* ctx); 
+    };
+
 // }
