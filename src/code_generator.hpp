@@ -14,6 +14,7 @@
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Type.h"
 #include "llvm/IR/Verifier.h"
+#include "llvm/ExecutionEngine/GenericValue.h"
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
@@ -23,6 +24,8 @@
 #include <string>
 #include <vector>
 #include <stack>
+
+#include "extern_func.hpp"
 
 class basic_block {
     public:
@@ -36,6 +39,8 @@ class codegen_context {
     public:
     std::stack<std::unique_ptr<basic_block>> blocks;
     llvm::Function* main_function;
+    // store the llvm::Function*, pointer to the extern function
+    std::vector<std::pair<llvm::Function*, void*>> inbuilts_info;
 
     // as explained in llvm tutorial
     static llvm::LLVMContext TheContext;
@@ -46,4 +51,11 @@ class codegen_context {
     static std::unique_ptr<llvm::legacy::FunctionPassManager> TheFPM;
 
     void generate_code(std::shared_ptr<block> root);
+
+    llvm::GenericValue run_code();
+
+    void setup_inbuilts();
+
+    codegen_context();
+
 };

@@ -24,6 +24,7 @@ class driver {
     std::string file;
 
     // handling the scanner
+    // NOTE: defined in tokens.l
     void scan_begin();
     void scan_end();
 

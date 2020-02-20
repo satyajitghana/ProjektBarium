@@ -7,6 +7,7 @@
 #include "llvm/ExecutionEngine/ExecutionEngine.h"
 #include "llvm/ExecutionEngine/SectionMemoryManager.h"
 #include "llvm/ExecutionEngine/Orc/CompileUtils.h"
+#include "llvm/ExecutionEngine/GenericValue.h"
 #include "llvm/Support/TargetSelect.h"
 
 // declare all the static variables
@@ -28,24 +29,19 @@ std::map<std::string, llvm::Value *> codegen_context::NamedValues;
 
 std::unique_ptr<llvm::legacy::FunctionPassManager> codegen_context::TheFPM;
 
+codegen_context::codegen_context() {
+    // Initialize Native Target
+    llvm::InitializeNativeTarget();
+    llvm::InitializeNativeTargetAsmParser();
+    llvm::InitializeNativeTargetAsmPrinter();
+}
+
 void codegen_context::generate_code(std::shared_ptr<block> root) {
 
-    /*
-    some testing
-    using namespace llvm;
-    FunctionType* funcType = FunctionType::get(codegen_context::Builder.getInt64Ty(), {}, false);
-    this->main_function = Function::Create(funcType, GlobalValue::ExternalLinkage, "__main", codegen_context::TheModule.get());
-    BasicBlock* entryBlock = BasicBlock::Create(codegen_context::TheContext, "__main", this->main_function);
+    std::cout << "Generating LLVM IR: " << "\n";
 
-    this->blocks.emplace(std::make_unique<basic_block>(entryBlock));
-    codegen_context::Builder.SetInsertPoint(entryBlock);
-    codegen_context::Builder.CreateRet(root->code_gen());
-    this->blocks.pop();
-
-    codegen_context::TheModule->print(llvm::errs(), nullptr);
-    */
-
-    // create the entry function aka the main function
+    std::cout << "setting up in-builts\n";
+    setup_inbuilts();
 
     // create the argument list
     std::vector<llvm::Type*> argTypes;
@@ -61,12 +57,66 @@ void codegen_context::generate_code(std::shared_ptr<block> root) {
     this->blocks.emplace(std::make_unique<basic_block>(entryBlock));
     // the code will be inserted into entry block now
     codegen_context::Builder.SetInsertPoint(entryBlock);
-    // root->code_gen(); // generate code for the entire tree
-    codegen_context::Builder.CreateRet(root->code_gen());
+    root->code_gen(this); // generate code for the entire tree
+    // codegen_context::Builder.CreateRet(blocks.top()->block);
+    codegen_context::Builder.CreateRet(llvm::ConstantInt::get(codegen_context::TheContext,
+                                  llvm::APInt(64, 1)));
     this->blocks.pop();
 
-    std::cout << "Generating LLVM IR: " << "\n";
     // print the IR
     codegen_context::TheModule->print(llvm::errs(), nullptr);
 
+}
+
+llvm::GenericValue codegen_context::run_code() {
+    using namespace llvm;
+    std::cout << "Running Code!" << '\n';
+
+    TargetOptions Opts;
+
+    auto* module = this->TheModule.get();
+    std::unique_ptr<RTDyldMemoryManager> MemMgr(new llvm::SectionMemoryManager());
+
+    // Create the JIT Engine
+    EngineBuilder factory(std::move(this->TheModule));
+    factory.setEngineKind(EngineKind::JIT);
+    factory.setTargetOptions(Opts);
+    factory.setMCJITMemoryManager(std::move(MemMgr));
+
+    auto execution_engine = std::unique_ptr<ExecutionEngine>(factory.create());
+    module->setDataLayout(execution_engine->getDataLayout());
+
+    for (auto[fun, fun_addr] : this->inbuilts_info) {
+        execution_engine->addGlobalMapping(fun, fun_addr);
+    }
+
+    execution_engine->finalizeObject();
+    std::vector<GenericValue> noargs;
+
+    GenericValue val_ret = execution_engine->runFunction(this->main_function, noargs);
+
+    std::cout << "Code was run!" << '\n';
+
+    return val_ret;
+}
+
+void codegen_context::setup_inbuilts() {
+    using namespace llvm;
+
+
+    // setup "display" function
+
+    // arg: int8 pointer 
+    std::vector<llvm::Type*> display_arg_types(1, codegen_context::Builder.getInt8PtrTy());
+    // return: Void, Params: int8 pointer, isVarArg: true
+    FunctionType* display_ft = FunctionType::get(codegen_context::Builder.getVoidTy(), display_arg_types, true);
+
+    Function* display_func = Function::Create(display_ft, Function::ExternalLinkage, "display", codegen_context::TheModule.get());
+
+    auto i = display_func->arg_begin();
+    if (i != display_func->arg_end()) {
+        i->setName("format_str");
+    }
+    
+    this->inbuilts_info.push_back({display_func, (void*)display});
 }

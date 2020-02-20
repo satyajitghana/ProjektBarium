@@ -3,38 +3,39 @@
 
 #include <typeinfo>
 
-llvm::Value* block::code_gen() {
+llvm::Value* block::code_gen(codegen_context* ctx) {
     llvm::Value* last = nullptr;
+    std::cout << "[ found " << this->statements.size() << " statements ]" << "\n";
     for (auto& stmt : this->statements) {
         std::cout << "[generating code for: " << typeid(*stmt).name() << " ]"
                   << "\n";
-        last = stmt->code_gen();
+        last = stmt->code_gen(ctx);
     }
 
     return last;
 }
 
-llvm::Value* expr_statement::code_gen() {
-    std::cout << "[generating code for: " << typeid(*expr).name() << " ]"
+llvm::Value* expr_statement::code_gen(codegen_context* ctx) {
+    std::cout << "[ generating code for: " << typeid(*expr).name() << " ]"
               << "\n";
-    return this->expr->code_gen();
+    return this->expr->code_gen(ctx);
 }
 
-llvm::Value* decimal::code_gen() {
+llvm::Value* decimal::code_gen(codegen_context* ctx) {
     std::cout << "[producing decimal for: " << value << " ]"
               << "\n";
     return llvm::ConstantInt::get(codegen_context::TheContext,
                                   llvm::APInt(64, value));
 }
 
-llvm::Value* fraction::code_gen() {
+llvm::Value* fraction::code_gen(codegen_context* ctx) {
     std::cout << "[producing fraction for: " << value << " ]"
               << "\n";
     return llvm::ConstantFP::get(codegen_context::TheContext,
                                  llvm::APFloat((double)this->value));
 }
 
-llvm::Value* stringlit::code_gen() {
+llvm::Value* stringlit::code_gen(codegen_context* ctx) {
     std::cout << "[producing string literal for: " << value << " ]"
               << "\n";
     // return
@@ -71,11 +72,11 @@ llvm::Value* stringlit::code_gen() {
     return const_ptr_8;
 }
 
-llvm::Value* binary_operator::code_gen() {
-    llvm::Value* L = this->lhs->code_gen();
+llvm::Value* binary_operator::code_gen(codegen_context* ctx) {
+    llvm::Value* L = this->lhs->code_gen(ctx);
     std::cout << "[producing binary_operator for: " << op << " ]"
               << "\n";
-    llvm::Value* R = this->rhs->code_gen();
+    llvm::Value* R = this->rhs->code_gen(ctx);
 
     switch (this->op) {
         case '+':
@@ -90,7 +91,7 @@ llvm::Value* binary_operator::code_gen() {
                                   llvm::APInt(64, 0));
 }
 
-llvm::Value* identifier::code_gen() {
+llvm::Value* identifier::code_gen(codegen_context* ctx) {
     std::cout << "[producing identifier for: " << name << " ]"
               << "\n";
     // if (codegen_context::NamedValues.find(this->name) ==
@@ -103,32 +104,50 @@ llvm::Value* identifier::code_gen() {
                                   llvm::APInt(64, 0));
 }
 
-llvm::Value* assignment::code_gen() {
+llvm::Value* assignment::code_gen(codegen_context* ctx) {
     std::cout << "[producing assignment for: " << lhs->name << " ]"
               << "\n";
-    return this->rhs->code_gen();
+    return this->rhs->code_gen(ctx);
 }
 
-llvm::Value* function_call::code_gen() {
-    std::cout << "[producing function call for: " << this->ident->name << " ]"
-              << "\n";
-    std::vector<llvm::Value*> args;
-    for (auto & arg : *(args_list) ) {
-        args.push_back(arg->code_gen());
-    }
+llvm::Value* function_call::code_gen(codegen_context* ctx) {
 
     using namespace llvm;
 
-    if (this->ident->name == "print") {
-        FunctionType* funcType = FunctionType::get(
-            IntegerType::getInt32Ty(codegen_context::TheContext),
-            PointerType::get(Type::getInt8Ty(codegen_context::TheContext), 0),
-            true);
-        FunctionCallee CalleeF =
-            codegen_context::TheModule->getOrInsertFunction("printf", funcType);
+    std::cout << "[producing function call for: " << this->ident->name << " ]"
+              << "\n";
 
-        return codegen_context::Builder.CreateCall(CalleeF, args, "printfCall");
-    } else {
-        return nullptr;
+    // fetch the function from the module
+    Function* function = codegen_context::TheModule->getFunction(this->ident->name.c_str());
+
+    std::vector<Value*> args;
+
+    // put all the parameters into the vector
+    for (auto & arg : *(args_list) ) {
+        args.push_back(arg->code_gen(ctx));
     }
+
+    // create the instruction call
+    CallInst* call = CallInst::Create(function, args, "", ctx->blocks.top()->block);
+
+    return call;
+
+    // experiment on printf function call directly from code
+    // i then realised about external function, so rather use that
+    // its more generic
+    // but i'm keeping this here as a reference, might use later ?
+    // - shadowleaf
+    //
+    // if (this->ident->name == "print") {
+    //     FunctionType* funcType = FunctionType::get(
+    //         IntegerType::getInt32Ty(codegen_context::TheContext),
+    //         PointerType::get(Type::getInt8Ty(codegen_context::TheContext), 0),
+    //         true);
+    //     FunctionCallee CalleeF =
+    //         codegen_context::TheModule->getOrInsertFunction("printf", funcType);
+
+    //     return codegen_context::Builder.CreateCall(CalleeF, args, "printfCall");
+    // } else {
+    //     return nullptr;
+    // }
 }

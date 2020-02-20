@@ -8,6 +8,7 @@ int driver::parse(const std::string& f) {
     file = f;
     location.initialize(&file);
 
+    // scan_begin and scan_end are defined in tokens.l
     scan_begin();
 
     yy::parser parse(*this);

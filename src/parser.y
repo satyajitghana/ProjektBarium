@@ -81,28 +81,40 @@ program     : stmts {
                 std::cout << "program: " << cnt++ << "\n";
                 #endif
 
+                std::cout << $1.get() << '\n';
+
                 program_block = std::move($1);
+
+                std::cout << program_block.get() << '\n';
 
                 }
             ;
 
-stmts       : stmt {
+stmts[block]       : stmt {
 
                 #ifdef DEBUG_PARSER
-                std::cout << "stmts: " << cnt++ << "\n";
+                std::cout << "stmt: " << cnt++ << "\n";
                 #endif
 
-                $$ = std::make_unique<block>();
-                $$->statements.emplace_back(std::move($1));
+                $block = std::make_unique<block>();
+
+                $block->statements.emplace_back(std::move($1));
 
                 }
-            | stmts stmt {
+            | stmts[meow] stmt {
 
                 #ifdef DEBUG_PARSER
                 std::cout << "stmts stmt: " << cnt++ << "\n";
                 #endif
 
-                $1->statements.emplace_back(std::move($2));
+                $meow->statements.emplace_back(std::move($2));
+
+                // i added this because i std::move everytime and this moves the$block also
+                // so i std::move back $meow to block to retain the address of main block
+                // it was becoming null before, added null check in main.cpp as well
+                // - shadowleaf
+
+                $block = std::move($meow);
 
                 }
             ;

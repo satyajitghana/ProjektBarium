@@ -71,7 +71,6 @@ yy::parser::symbol_type make_IDENT(const std::string& s, const yy::parser::locat
   return yy::parser::make_IDENT(std::move(temp), loc);
 }
 
-
 void driver::scan_begin() {
   if (file.empty() || file == "-")
     yyin = stdin;

@@ -5,8 +5,8 @@ project(ProjektBarium VERSION 0.1.0)
 FIND_PACKAGE(FLEX)
 FIND_PACKAGE(BISON)
 
-set(SOURCES_COMMON main.cpp driver.cpp ast_structures.cpp code_generator.cpp parser.y tokens.l)
-set(HEADERS_COMMON driver.hpp ast_structures.hpp code_generator.hpp)
+set(SOURCES_COMMON main.cpp driver.cpp ast_structures.cpp code_generator.cpp extern_func.cpp parser.y tokens.l)
+set(HEADERS_COMMON driver.hpp ast_structures.hpp code_generator.hpp extern_func.hpp)
 
 # create the tokenizer
 FLEX_TARGET(Scanner tokens.l ${CMAKE_CURRENT_BINARY_DIR}/tokens.cpp)
@@ -45,7 +45,7 @@ llvm_config(barium ${USE_SHARED} ${llvm_libs})
 
 # Find the libraries that correspond to the LLVM components
 # that we wish to use
-llvm_map_components_to_libnames(llvm_libs core native irreader)
+llvm_map_components_to_libnames(llvm_libs core native irreader mcjit)
 
 # Link against LLVM libraries
 target_link_libraries(barium PRIVATE ${llvm_libs})

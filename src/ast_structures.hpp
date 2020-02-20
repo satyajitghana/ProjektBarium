@@ -4,11 +4,19 @@
 #include <vector>
 #include <llvm/IR/Value.h>
 
+// this produces cyclic import problem
+// #include "code_generator.hpp"
+// so forward declare codegen_context
+class codegen_context;
+
 // namespace barium {
     class node {
         public:
             virtual ~node() {}
-            virtual llvm::Value* code_gen() { return nullptr; }
+            virtual llvm::Value* code_gen(codegen_context* ctx) {
+                std::cerr << "ERROR code_gen not implemented" << '\n';
+                return nullptr;
+                }
     };
 
     class expression : public node {
@@ -25,7 +33,7 @@
         expr_statement(std::unique_ptr<expression> expr) : expr(std::move(expr)) { }
         expr_statement();
 
-        llvm::Value* code_gen();
+        llvm::Value* code_gen(codegen_context* ctx);
     };
 
     class decimal : public expression {
@@ -34,7 +42,7 @@
         decimal(long long value) : value(value) { }
         decimal() {}
 
-        llvm::Value* code_gen();
+        llvm::Value* code_gen(codegen_context* ctx);
     };
 
     class fraction : public expression {
@@ -43,7 +51,7 @@
         fraction(long double value) : value(value) { }
         fraction() {}
 
-        llvm::Value* code_gen();
+        llvm::Value* code_gen(codegen_context* ctx);
     };
 
     class stringlit : public expression {
@@ -52,7 +60,7 @@
         stringlit(std::string value) : value(value) {}
         stringlit();
 
-        llvm::Value* code_gen();
+        llvm::Value* code_gen(codegen_context* ctx);
     };
 
     class binary_operator : public expression {
@@ -63,7 +71,7 @@
         binary_operator(char op, std::unique_ptr<expression> lhs, std::unique_ptr<expression> rhs) : op(op), lhs(std::move(lhs)), rhs(std::move(rhs)) { }
         binary_operator() {}
 
-        llvm::Value* code_gen();
+        llvm::Value* code_gen(codegen_context* ctx);
     };
 
     class identifier : public expression {
@@ -72,7 +80,7 @@
         identifier(const std::string& name) : name(name) { }
         identifier() {}
 
-        llvm::Value* code_gen();
+        llvm::Value* code_gen(codegen_context* ctx);
     };
 
     class block : public expression {
@@ -80,7 +88,7 @@
         std::vector<std::unique_ptr<statement>> statements;
         block() {}
 
-        llvm::Value* code_gen();
+        llvm::Value* code_gen(codegen_context* ctx);
     };
 
     class assignment : public expression {
@@ -90,7 +98,7 @@
         assignment(std::unique_ptr<identifier> lhs, std::unique_ptr<expression> rhs) : lhs(std::move(lhs)), rhs(std::move(rhs)) {}
         assignment() {}
 
-        llvm::Value* code_gen();
+        llvm::Value* code_gen(codegen_context* ctx);
     };
 
     class function_call : public expression {
@@ -101,6 +109,6 @@
         function_call(std::unique_ptr<identifier> ident, std::unique_ptr<std::vector<std::unique_ptr<expression>>> args_list) : ident(std::move(ident)), args_list(std::move(args_list)) {}
         function_call() {}
 
-        llvm::Value* code_gen();
+        llvm::Value* code_gen(codegen_context* ctx);
     };
 // }
