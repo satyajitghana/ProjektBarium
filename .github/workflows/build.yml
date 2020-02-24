@@ -36,6 +36,6 @@ jobs:
     - name: Build the target
       run: |
         make
-    - meow: Test run
+    - name: Tests
       run: |
         ./build/src/barium test_files/test.bar
