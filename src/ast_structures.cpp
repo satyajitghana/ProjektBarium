@@ -7,7 +7,8 @@
 
 llvm::Value* block::code_gen(codegen_context* ctx) {
     llvm::Value* last = nullptr;
-    std::cout << "[ found " << this->statements.size() << " statements ]" << "\n";
+    std::cout << "[ found " << this->statements.size() << " statements ]"
+              << "\n";
     for (auto& stmt : this->statements) {
         std::cout << "[generating code for: " << typeid(*stmt).name() << " ]"
                   << "\n";
@@ -74,9 +75,7 @@ llvm::Value* stringlit::code_gen(codegen_context* ctx) {
     return const_ptr_8;
 }
 
-
 llvm::Value* binary_operator::code_gen(codegen_context* ctx) {
-
     using namespace llvm;
 
     llvm::Value* L = this->lhs->code_gen(ctx);
@@ -84,12 +83,10 @@ llvm::Value* binary_operator::code_gen(codegen_context* ctx) {
               << "\n";
     llvm::Value* R = this->rhs->code_gen(ctx);
 
-
     // check if the value TypeIDs are same for left and right
     // if they are different cast them to doubles, since we only have
     // 2 data types, this works
     if (L->getType()->getTypeID() != R->getType()->getTypeID()) {
-
         auto doubleTy = ctx->Builder.getDoubleTy();
 
         // cast RHS
@@ -139,23 +136,23 @@ llvm::Value* binary_operator::code_gen(codegen_context* ctx) {
 llvm::Value* unary_operator::code_gen(codegen_context* ctx) {
     using namespace llvm;
 
-    std::cout << "[producing unary operator for: " << this->op << " ]" << "\n";
+    std::cout << "[producing unary operator for: " << this->op << " ]"
+              << "\n";
 
     Value* expr = this->expr->code_gen(ctx);
 
     // Instruction::UnaryOps op_instr;
     Value* un_op = nullptr;
 
-    switch(this->op) {
+    switch (this->op) {
         // does bitwise not
         case '!': {
             Value* neg_one = llvm::ConstantInt::get(ctx->TheContext,
-                                  llvm::APInt(64, -1));
+                                                    llvm::APInt(64, -1));
 
             auto instr = Instruction::Xor;
             un_op = ctx->Builder.CreateBinOp(instr, neg_one, expr, "not_temp");
-            }
-            break;
+        } break;
         default: {
             std::cerr << "unknown operator !" << '\n';
             return nullptr;
@@ -174,8 +171,8 @@ llvm::Value* identifier::code_gen(codegen_context* ctx) {
               << "\n";
 
     // check if the variable does not exist in the current locals
-    if (ctx->current_block()->locals.find(this->name) ==  ctx->current_block()->locals.end()) {
-        std::cerr << "undeclared variable "<< this->name << " !" << '\n';
+    if (ctx->current_block()->locals.find(this->name) == ctx->current_block()->locals.end()) {
+        std::cerr << "undeclared variable " << this->name << " !" << '\n';
 
         return nullptr;
     }
@@ -192,8 +189,8 @@ llvm::Value* assignment::code_gen(codegen_context* ctx) {
     std::cout << "[producing assignment for: " << lhs->name << " ]"
               << "\n";
     // check if the variable does not exist in the current locals
-    if (ctx->current_block()->locals.find(lhs->name) ==  ctx->current_block()->locals.end()) {
-        std::cerr << "undeclared variable "<< lhs->name << " !" << '\n';
+    if (ctx->current_block()->locals.find(lhs->name) == ctx->current_block()->locals.end()) {
+        std::cerr << "undeclared variable " << lhs->name << " !" << '\n';
 
         return nullptr;
     }
@@ -204,7 +201,6 @@ llvm::Value* assignment::code_gen(codegen_context* ctx) {
 }
 
 llvm::Value* function_call::code_gen(codegen_context* ctx) {
-
     using namespace llvm;
 
     std::cout << "[producing function call for: " << this->ident->name << " ]"
@@ -216,7 +212,7 @@ llvm::Value* function_call::code_gen(codegen_context* ctx) {
     std::vector<Value*> args;
 
     // put all the parameters into the vector
-    for (auto & arg : *(args_list) ) {
+    for (auto& arg : *(args_list)) {
         args.push_back(arg->code_gen(ctx));
     }
 
@@ -246,7 +242,6 @@ llvm::Value* function_call::code_gen(codegen_context* ctx) {
 }
 
 llvm::Value* variable_declaration::code_gen(codegen_context* ctx) {
-
     using namespace llvm;
 
     std::cout << "[producing variable declaration for: " << this->ident->name << " ]"

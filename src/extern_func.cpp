@@ -1,8 +1,8 @@
-#include <stdio.h>
+#include "extern_func.hpp"
 #include <stdarg.h>
+#include <stdio.h>
 #include <cstring>
 #include <iostream>
-#include "extern_func.hpp"
 
 extern "C" DECLSPEC void display(char* str, ...) {
     va_list argp;

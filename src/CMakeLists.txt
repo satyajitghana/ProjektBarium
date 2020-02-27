@@ -56,5 +56,5 @@ target_link_libraries(barium PRIVATE ${llvm_libs})
 # find_library(LLDELF_LIB lldELF)
 # target_link_libraries(barium PUBLIC "${LLDELF_LIB}")
 
-set_property(TARGET barium PROPERTY CXX_STANDARD 17)
-set_property(TARGET barium PROPERTY CXX_STANDARD_REQUIRED ON)
+set_target_properties(barium PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED YES)
+

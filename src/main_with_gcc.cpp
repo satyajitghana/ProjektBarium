@@ -146,5 +146,4 @@ int main(int argc, char* argv[]) {
 
     llvm::ArrayRef<const char*> Args(args);
     lld::elf::link(Args, false);*/
-    
 }

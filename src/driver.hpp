@@ -1,16 +1,16 @@
 #pragma once
 
-#include <string>
 #include <map>
+#include <string>
 #include "parser.hpp"
 
 // declare the YY_DECL as our custom parser driver
-# define YY_DECL yy::parser::symbol_type yylex (driver& drv)
+#define YY_DECL yy::parser::symbol_type yylex(driver& drv)
 
 YY_DECL;
 
 class driver {
-    public:
+   public:
     driver();
 
     std::map<std::string, int> variables;

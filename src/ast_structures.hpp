@@ -1,8 +1,8 @@
 #pragma once
 
+#include <llvm/IR/Value.h>
 #include <iostream>
 #include <vector>
-#include <llvm/IR/Value.h>
 
 // this produces cyclic import problem
 // #include "code_generator.hpp"
@@ -15,147 +15,142 @@ enum class node_type {
     fraction
 };
 
-
 /// every class has to have a default constructor, since parser.y
 /// needs to create these objects without arguments first
 
 // namespace barium {
 
-    class node {
-        public:
-            virtual ~node() {}
-            virtual llvm::Value* code_gen(codegen_context* ctx) {
-                std::cerr << "ERROR code_gen not implemented" << '\n';
-                return nullptr;
-                }
-    };
+class node {
+   public:
+    virtual ~node() {}
+    virtual llvm::Value* code_gen(codegen_context* ctx) {
+        std::cerr << "ERROR code_gen not implemented" << '\n';
+        return nullptr;
+    }
+};
 
-    class expression : public node {
+class expression : public node {
+};
 
-    };
+class statement : public node {
+};
 
-    class statement : public node {
+class expr_statement : public statement {
+   public:
+    std::unique_ptr<expression> expr;
+    expr_statement(std::unique_ptr<expression> expr) : expr(std::move(expr)) {}
+    expr_statement();
 
-    };
+    llvm::Value* code_gen(codegen_context* ctx);
+};
 
-    class expr_statement : public statement {
-        public:
-        std::unique_ptr<expression> expr;
-        expr_statement(std::unique_ptr<expression> expr) : expr(std::move(expr)) { }
-        expr_statement();
+class decimal : public expression {
+   public:
+    long long value;
+    decimal(long long value) : value(value) {}
+    decimal() {}
 
-        llvm::Value* code_gen(codegen_context* ctx);
-    };
+    llvm::Value* code_gen(codegen_context* ctx);
+};
 
-    class decimal : public expression {
-        public:
-        long long value;
-        decimal(long long value) : value(value) { }
-        decimal() {}
+class fraction : public expression {
+   public:
+    long double value;
+    fraction(long double value) : value(value) {}
+    fraction() {}
 
-        llvm::Value* code_gen(codegen_context* ctx);
-    };
+    llvm::Value* code_gen(codegen_context* ctx);
+};
 
-    class fraction : public expression {
-        public:
-        long double value;
-        fraction(long double value) : value(value) { }
-        fraction() {}
+class stringlit : public expression {
+   public:
+    std::string value;
+    stringlit(std::string value) : value(value) {}
+    stringlit();
 
-        llvm::Value* code_gen(codegen_context* ctx);
-    };
+    llvm::Value* code_gen(codegen_context* ctx);
+};
 
-    class stringlit : public expression {
-        public:
-        std::string value;
-        stringlit(std::string value) : value(value) {}
-        stringlit();
+class binary_operator : public expression {
+   public:
+    char op = 0;
+    std::unique_ptr<expression> lhs = nullptr;
+    std::unique_ptr<expression> rhs = nullptr;
+    binary_operator(char op, std::unique_ptr<expression> lhs, std::unique_ptr<expression> rhs) : op(op), lhs(std::move(lhs)), rhs(std::move(rhs)) {}
+    binary_operator() {}
 
-        llvm::Value* code_gen(codegen_context* ctx);
-    };
+    llvm::Value* code_gen(codegen_context* ctx);
+};
 
-    class binary_operator : public expression {
-        public:
-        char op = 0;
-        std::unique_ptr<expression> lhs = nullptr;
-        std::unique_ptr<expression> rhs = nullptr;
-        binary_operator(char op, std::unique_ptr<expression> lhs, std::unique_ptr<expression> rhs) : op(op), lhs(std::move(lhs)), rhs(std::move(rhs)) { }
-        binary_operator() {}
+class unary_operator : public expression {
+   public:
+    char op = 0;
+    std::unique_ptr<expression> expr = nullptr;
+    unary_operator(char op, std::unique_ptr<expression> expr) : op(op), expr(std::move(expr)) {}
+    unary_operator() {}
 
-        llvm::Value* code_gen(codegen_context* ctx);
-    };
+    llvm::Value* code_gen(codegen_context* ctx);
+};
 
-    class unary_operator : public expression {
-        public:
-        char op = 0;
-        std::unique_ptr<expression> expr = nullptr;
-        unary_operator(char op, std::unique_ptr<expression> expr) : op(op), expr(std::move(expr)) {}
-        unary_operator() {}
+class identifier : public expression {
+   public:
+    std::string name;
+    identifier(const std::string& name) : name(name) {}
+    identifier() {}
 
-        llvm::Value* code_gen(codegen_context* ctx);
-    };
+    llvm::Value* code_gen(codegen_context* ctx);
+};
 
-    class identifier : public expression {
-        public:
-        std::string name;
-        identifier(const std::string& name) : name(name) { }
-        identifier() {}
+class block : public expression {
+   public:
+    std::vector<std::unique_ptr<statement>> statements;
+    block() {}
 
-        llvm::Value* code_gen(codegen_context* ctx);
-    };
+    llvm::Value* code_gen(codegen_context* ctx);
+};
 
-    class block : public expression {
-        public:
-        std::vector<std::unique_ptr<statement>> statements;
-        block() {}
+class assignment : public expression {
+   public:
+    std::unique_ptr<identifier> lhs = nullptr;
+    std::unique_ptr<expression> rhs = nullptr;
+    assignment(std::unique_ptr<identifier> lhs, std::unique_ptr<expression> rhs) : lhs(std::move(lhs)), rhs(std::move(rhs)) {}
+    assignment() {}
 
-        llvm::Value* code_gen(codegen_context* ctx);
-    };
+    llvm::Value* code_gen(codegen_context* ctx);
+};
 
-    class assignment : public expression {
-        public:
-        std::unique_ptr<identifier> lhs = nullptr;
-        std::unique_ptr<expression> rhs = nullptr;
-        assignment(std::unique_ptr<identifier> lhs, std::unique_ptr<expression> rhs) : lhs(std::move(lhs)), rhs(std::move(rhs)) {}
-        assignment() {}
+class function_call : public expression {
+   public:
+    std::unique_ptr<identifier> ident;
+    std::unique_ptr<std::vector<std::unique_ptr<expression>>> args_list;
 
-        llvm::Value* code_gen(codegen_context* ctx);
-    };
+    function_call(std::unique_ptr<identifier> ident, std::unique_ptr<std::vector<std::unique_ptr<expression>>> args_list) : ident(std::move(ident)), args_list(std::move(args_list)) {}
+    function_call() {}
 
-    class function_call : public expression {
-        public:
-        std::unique_ptr<identifier> ident;
-        std::unique_ptr<std::vector<std::unique_ptr<expression>>> args_list;
+    llvm::Value* code_gen(codegen_context* ctx);
+};
 
-        function_call(std::unique_ptr<identifier> ident, std::unique_ptr<std::vector<std::unique_ptr<expression>>> args_list) : ident(std::move(ident)), args_list(std::move(args_list)) {}
-        function_call() {}
+class variable_declaration : public statement {
+   public:
+    std::unique_ptr<identifier> type;
+    std::unique_ptr<identifier> ident;
+    std::unique_ptr<expression> assign_expr;
 
-        llvm::Value* code_gen(codegen_context* ctx);
-    };
+    variable_declaration(
+        std::unique_ptr<identifier> type,
+        std::unique_ptr<identifier> ident,
+        std::unique_ptr<expression> assign_expr) : type(std::move(type)),
+                                                   ident(std::move(ident)),
+                                                   assign_expr(std::move(assign_expr)) {}
 
-    class variable_declaration : public statement {
-        public:
-        std::unique_ptr<identifier> type;
-        std::unique_ptr<identifier> ident;
-        std::unique_ptr<expression> assign_expr;
+    variable_declaration(
+        std::unique_ptr<identifier> type,
+        std::unique_ptr<identifier> ident) : type(std::move(type)),
+                                             ident(std::move(ident)) {}
 
-        variable_declaration(
-            std::unique_ptr<identifier> type, 
-            std::unique_ptr<identifier> ident, 
-            std::unique_ptr<expression> assign_expr) :
-            type(std::move(type)),
-            ident(std::move(ident)),
-            assign_expr(std::move(assign_expr)) {}
+    variable_declaration() {}
 
-        variable_declaration(
-            std::unique_ptr<identifier> type, 
-            std::unique_ptr<identifier> ident) :
-            type(std::move(type)),
-            ident(std::move(ident)) {}
-
-        variable_declaration() {}
-
-        llvm::Value* code_gen(codegen_context* ctx); 
-    };
+    llvm::Value* code_gen(codegen_context* ctx);
+};
 
 // }
