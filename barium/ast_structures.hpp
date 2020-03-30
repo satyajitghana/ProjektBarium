@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 
+#include "visitor.hpp"
+
 // this produces cyclic import problem
 // #include "code_generator.hpp"
 // so forward declare codegen_context
@@ -27,6 +29,15 @@ class node {
         std::cerr << "ERROR code_gen not implemented" << '\n';
         return nullptr;
     }
+
+    virtual std::string to_str() {
+        std::cerr << "ERROR to_str not implemented" << '\n';
+        return "";
+    }
+
+    virtual void accept(visitor& v) {
+        std::cerr << "ERROR accept not implemented" << '\n';
+    }
 };
 
 class expression : public node {
@@ -42,6 +53,8 @@ class expr_statement : public statement {
     expr_statement();
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_expr_statement(this); }
 };
 
 class decimal : public expression {
@@ -151,6 +164,34 @@ class variable_declaration : public statement {
     variable_declaration() {}
 
     llvm::Value* code_gen(codegen_context* ctx);
+};
+
+class comp_operator : public expression {
+    public:
+    std::string op;
+    std::unique_ptr<expression> lhs;
+    std::unique_ptr<expression> rhs;
+
+    comp_operator(std::string op, std::unique_ptr<expression> lhs, std::unique_ptr<expression> rhs) : op(op), lhs(std::move(lhs)), rhs(std::move(rhs)) {}
+
+    llvm::Value* code_gen(codegen_context* ctx);
+    
+};
+
+class conditional : public statement {
+    public:
+    std::unique_ptr<comp_operator> comp_expr;
+    std::unique_ptr<expression> then_expr;
+    std::unique_ptr<expression> else_expr;
+
+    conditional(std::unique_ptr<comp_operator> comp_expr, 
+    std::unique_ptr<expression> then_expr, 
+    std::unique_ptr<expression> else_expr) : comp_expr(std::move(comp_expr)), 
+                                             then_expr(std::move(then_expr)), 
+                                             else_expr(std::move(else_expr)) {}
+
+    llvm::Value* code_gen(codegen_context* ctx);
+
 };
 
 // }

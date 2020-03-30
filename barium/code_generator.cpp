@@ -1,5 +1,7 @@
 #include "code_generator.hpp"
 
+#include "external/loguru.hpp"
+
 #include "llvm/ExecutionEngine/ExecutionEngine.h"
 #include "llvm/ExecutionEngine/GenericValue.h"
 #include "llvm/ExecutionEngine/Orc/CompileUtils.h"
@@ -36,7 +38,7 @@ codegen_context::codegen_context() {
     llvm::InitializeNativeTargetAsmPrinter();
 }
 
-void codegen_context::generate_code(std::shared_ptr<block> root) {
+void codegen_context::generate_code(std::shared_ptr<block> root, bool dump_ir = false) {
     std::cout << "Generating LLVM IR: "
               << "\n";
 
@@ -68,7 +70,10 @@ void codegen_context::generate_code(std::shared_ptr<block> root) {
     this->blocks.pop();
 
     // print the IR
-    codegen_context::TheModule->print(llvm::errs(), nullptr);
+    if (dump_ir) {
+        LOG_S(INFO) << "Generated IR";
+        codegen_context::TheModule->print(llvm::errs(), nullptr);
+    }
 }
 
 llvm::GenericValue codegen_context::run_code() {

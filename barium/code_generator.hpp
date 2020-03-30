@@ -50,7 +50,7 @@ class codegen_context {
     static std::map<std::string, llvm::Value*> NamedValues;
     static std::unique_ptr<llvm::legacy::FunctionPassManager> TheFPM;
 
-    void generate_code(std::shared_ptr<block> root);
+    void generate_code(std::shared_ptr<block> root, bool dump_ir);
 
     llvm::GenericValue run_code();
 

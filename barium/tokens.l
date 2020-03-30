@@ -66,6 +66,8 @@ blank       [ \t\r]
 "*"                 { return yy::parser::make_MUL(loc); }   
 "/"                 { return yy::parser::make_DIV(loc); }
 "="                 { return yy::parser::make_ASSIGN(loc); }
+">"                 { return yy::parser::make_GRT(loc); }
+">="                { return yy::parser::make_GRTEQ(loc); }
 {num}+\.{num}*      { return make_FRACTION(yytext, loc); }
 -?{num}+            { return make_DECIMAL(yytext, loc); }
 {ident}             { return make_IDENT(yytext, loc); }
@@ -98,7 +100,7 @@ yy::parser::symbol_type make_IDENT(const std::string& s, const yy::parser::locat
 }
 
 void driver::scan_begin() {
-  if (file.empty() || file == "-")
+  if (file.empty() || file == "stdin")
     yyin = stdin;
   else if (!(yyin = fopen(file.c_str(), "r"))) {
       std::cerr << "cannot open " << file << ": " << strerror(errno) << '\n';

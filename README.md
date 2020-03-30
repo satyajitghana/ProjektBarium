@@ -26,5 +26,27 @@ Lexical Analyzer (Lex) -> Semantic Parsing (Bison) -> Assembly (LLVM) -> Executa
 - [ ] Make it a Library
 - [ ] Add Boost Math Support
 - [ ] Containerize the Compiler using Docker
-- [X] Create a CI/CD Pipeline (partial)
+- [X] Create a CI/CD Pipeline
 - [X] Output executables instead of obj files
+
+## Dependencies
+
+LLVM 9.0.1
+Bison 3.5
+
+## Build Instructions
+
+
+## Example Run
+
+Normal Run
+
+```shell
+$ ./barium test_files/test.bar -v OFF
+```
+
+Debug Verbose Run
+
+```shell
+$ ./barium test_files/test.bar -v INFO
+```

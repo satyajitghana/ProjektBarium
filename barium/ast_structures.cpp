@@ -266,3 +266,45 @@ llvm::Value* variable_declaration::code_gen(codegen_context* ctx) {
 
     return alloc;
 }
+
+
+llvm::Value* comp_operator::code_gen(codegen_context* ctx) {
+    using namespace llvm;
+
+    Value* lhs_val = this->lhs->code_gen(ctx);
+    Value* rhs_val = this->rhs->code_gen(ctx);
+
+    if (lhs_val == nullptr or rhs_val == nullptr) {
+        std::cerr << "error ! lhs or rhs of comp operator null !";
+
+        return nullptr;
+    }
+
+    // TODO: write code to check if the lhs and rhs are types that can be compared
+    // also check if they are of differnt types, for now assume they are going to be same
+    bool is_double = lhs_val->getType()->isFloatingPointTy();
+
+    Instruction::OtherOps oinstr = is_double ? Instruction::FCmp : Instruction::ICmp;
+
+    CmpInst::Predicate predicate;
+
+    if (this->op == ">=") {
+        predicate = is_double ? CmpInst::FCMP_OGE : CmpInst::ICMP_SGE;
+    } else if (this->op == ">") {
+        predicate = is_double ? CmpInst::FCMP_OGT : CmpInst::ICMP_SGT;
+    } else {
+        std::cerr << "operator: " << this->op << " not supported!" << '\n';
+        return nullptr;
+    } 
+
+    return CmpInst::Create(oinstr, predicate, lhs_val, rhs_val, "cmp_tmp", ctx->current_block()->block);
+}
+
+llvm::Value* conditional::code_gen(codegen_context* ctx) {
+    using namespace llvm;
+
+    Value* comp_val = this->comp_expr->code_gen(ctx);
+
+    return nullptr;
+}
+

@@ -15,12 +15,17 @@
     #include <string>
     #include <memory>
     #include <typeinfo>
+    #include <sstream>
 
     class driver;
 
     #include "ast_structures.hpp"
+    #include "visitor_pprint.hpp"
+    #include "external/loguru.hpp"
 
     static int cnt = 0;
+
+    // visitor_pprint v_pprint;
 }
 
 // parsing context
@@ -34,6 +39,7 @@
     #include "driver.hpp"
 
     std::shared_ptr<block> program_block;
+    std::stringstream parser_debug;
 }
 
 // to make sure there are no conflicts prepend TOK_
@@ -55,6 +61,8 @@
     LBRACE  "{"
     RBRACE  "}"
     COMMA   ","
+    GRT     ">"
+    GRTEQ   ">="
 
 %token  <std::unique_ptr<identifier>>   IDENT       "identifier"
 %token  <std::unique_ptr<decimal>>      DECIMAL     "decimal"
@@ -64,10 +72,12 @@
 %nterm  <std::unique_ptr<expression>>   literals
 %nterm  <std::unique_ptr<expression>>   binop_expr
 %nterm  <std::unique_ptr<expression>>   unaryop_expr
+%nterm  <std::unique_ptr<expression>>   compare_expr
 %nterm  <std::unique_ptr<block>>        stmts
 %nterm  <std::unique_ptr<block>>        program
 %nterm  <std::unique_ptr<block>>        block
 %nterm  <std::unique_ptr<statement>>    stmt
+%nterm  <std::unique_ptr<statement>>    conditional
 %nterm  <std::unique_ptr<std::vector<std::unique_ptr<expression>>>> call_args
 %nterm  <std::unique_ptr<variable_declaration>> var_decl
 
@@ -77,7 +87,7 @@
 
 %code {
     #define DEBUG_PARSER
-    // #undef DEBUG_PARSER
+    #undef DEBUG_PARSER
 }
 
 %%
@@ -155,7 +165,7 @@ stmt        : expr {
                 $$ = std::move($1);
                 }
             | conditional {
-                // $$ = std::move($1);
+                $$ = std::move($1);
             }
             ;
 
@@ -263,7 +273,7 @@ expr        : "identifier" "=" expr {
                 }
             | binop_expr {
 
-                // some binary operation
+                // some binary operation (numeric, not boolean)
                 #ifdef DEBUG_PARSER
                 std::cout << "binop_expr: " << cnt++ << "\n";
                 #endif
@@ -272,11 +282,16 @@ expr        : "identifier" "=" expr {
 
                 }
             | unaryop_expr {
-                // a boolean expression
+                // a and or not, unary boolean expression
                 #ifdef DEBUG_PARSER
                 std::cout << "uparyop_expr: " << cnt++ << '\n';
                 #endif
 
+                $$ = std::move($1);
+                }
+            | compare_expr {
+                // a comparison expression
+                LOG_S(INFO) << "compare_expr: " << cnt++; 
                 $$ = std::move($1);
             }
             | "(" expr ")" { $$ = std::move($2); }
@@ -342,6 +357,17 @@ binop_expr  : expr "and" expr {
                 $$ = std::make_unique<binary_operator>('/', std::move($1), std::move($3));
                 }
             ;
+
+// binary boolean comparison operators
+compare_expr    :   expr ">" expr {
+                        LOG_S(INFO) << "expr > expr";
+                        $$ = std::make_unique<comp_operator>(">", std::move($1), std::move($3));
+                    }
+                |   expr ">=" expr {
+                        LOG_S(INFO) << "expr >= expr";
+                        $$ = std::make_unique<comp_operator>(">=", std::move($1), std::move($3));
+                }
+                ;
 
 // unary operations
 

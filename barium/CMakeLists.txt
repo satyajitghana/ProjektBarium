@@ -5,6 +5,12 @@ project(ProjektBarium VERSION 0.1.0)
 FIND_PACKAGE(FLEX)
 FIND_PACKAGE(BISON)
 
+# pthreads
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
+set(HELPER_FILES visitor.hpp visitor_pprint.cpp visitor_pprint.hpp)
+
 set(SOURCES_COMMON main.cpp driver.cpp ast_structures.cpp code_generator.cpp extern_func.cpp parser.y tokens.l)
 set(HEADERS_COMMON driver.hpp ast_structures.hpp code_generator.hpp extern_func.hpp)
 
@@ -27,8 +33,26 @@ message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 
+# external sources
+aux_source_directory(external EXTERNAL_HEADERS)
+
 # add the executable to the project with the Scanner and the Parser
-add_executable(barium ${SOURCES_COMMON} ${HEADERS_COMMON} ${FLEX_Scanner_OUTPUTS} ${BISON_Parser_OUTPUTS})
+add_executable(barium ${SOURCES_COMMON}
+                      ${HEADERS_COMMON} 
+                      ${FLEX_Scanner_OUTPUTS}
+                      ${BISON_Parser_OUTPUTS}
+                      ${EXTERNAL_HEADERS}
+                      ${HELPER_FILES})
+
+
+target_compile_definitions(barium PRIVATE LOGURU_WITH_STREAMS=1)
+
+# link pthreads
+target_link_libraries(barium PUBLIC Threads::Threads)
+
+if(NOT WIN32)
+  target_link_libraries(barium PRIVATE dl)
+endif(NOT WIN32)
 
 # Add additional include search directories.
 target_include_directories(barium PUBLIC ${ProjektBarium_SOURCE_DIR})
