@@ -41,10 +41,13 @@ class node {
 };
 
 class expression : public node {
+    public:
     void accept(visitor& v) override { v.visit_expression(this); }
 };
 
 class statement : public node {
+    public:
+    void accept(visitor& v) override { v.visit_statement(this); }
 };
 
 class expr_statement : public statement {
@@ -65,6 +68,8 @@ class decimal : public expression {
     decimal() {}
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_decimal(this); }
 };
 
 class fraction : public expression {
@@ -74,6 +79,8 @@ class fraction : public expression {
     fraction() {}
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_fraction(this); }
 };
 
 class stringlit : public expression {
@@ -83,6 +90,8 @@ class stringlit : public expression {
     stringlit();
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_stringlit(this); }
 };
 
 class binary_operator : public expression {
@@ -94,6 +103,8 @@ class binary_operator : public expression {
     binary_operator() {}
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_binary_operator(this); }    
 };
 
 class unary_operator : public expression {
@@ -104,6 +115,8 @@ class unary_operator : public expression {
     unary_operator() {}
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_unary_operator(this); }
 };
 
 class identifier : public expression {
@@ -113,6 +126,9 @@ class identifier : public expression {
     identifier() {}
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_identifier(this); }
+    
 };
 
 class block : public expression {
@@ -121,6 +137,8 @@ class block : public expression {
     block() {}
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_block(this); }    
 };
 
 class assignment : public expression {
@@ -131,6 +149,8 @@ class assignment : public expression {
     assignment() {}
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_assignment(this); }
 };
 
 class function_call : public expression {
@@ -142,6 +162,8 @@ class function_call : public expression {
     function_call() {}
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_function_call(this); }
 };
 
 class variable_declaration : public statement {
@@ -165,6 +187,8 @@ class variable_declaration : public statement {
     variable_declaration() {}
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_variable_declaration(this); }
 };
 
 class comp_operator : public expression {
@@ -176,22 +200,25 @@ class comp_operator : public expression {
     comp_operator(std::string op, std::unique_ptr<expression> lhs, std::unique_ptr<expression> rhs) : op(op), lhs(std::move(lhs)), rhs(std::move(rhs)) {}
 
     llvm::Value* code_gen(codegen_context* ctx);
-    
+
+    void accept(visitor& v) override { v.visit_comp_operator(this); }
 };
 
 class conditional : public statement {
     public:
-    std::unique_ptr<comp_operator> comp_expr;
+    std::unique_ptr<expression> comp_expr;
     std::unique_ptr<expression> then_expr;
     std::unique_ptr<expression> else_expr;
 
-    conditional(std::unique_ptr<comp_operator> comp_expr, 
+    conditional(std::unique_ptr<expression> comp_expr, 
     std::unique_ptr<expression> then_expr, 
-    std::unique_ptr<expression> else_expr) : comp_expr(std::move(comp_expr)), 
-                                             then_expr(std::move(then_expr)), 
-                                             else_expr(std::move(else_expr)) {}
+    std::unique_ptr<expression> else_expr = nullptr) : comp_expr(std::move(comp_expr)), 
+                                                       then_expr(std::move(then_expr)), 
+                                                       else_expr(std::move(else_expr)) {}
 
     llvm::Value* code_gen(codegen_context* ctx);
+
+    void accept(visitor& v) override { v.visit_conditional(this); }
 
 };
 

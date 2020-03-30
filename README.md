@@ -18,16 +18,18 @@ Lexical Analyzer (Lex) -> Semantic Parsing (Bison) -> Assembly (LLVM) -> Executa
 - [X] Add Data Types
 - [X] Operators, Symbols, Reserved Keywords
 - [ ] Add Looping Statements - ongoing
-- [ ] Add Control Statements - ongoing
+- [X] Add Control Statements - ongoing (parse done)
 - [X] Add Output Statements - uses vprintf
 - [ ] Add Input Statements
 - [ ] Add Arrays Support
-- [ ] Finish the compiler
+- [X] Create a CI/CD Pipeline
+- [X] Output executables instead of obj files
+
+### Far-fetched task list
+
 - [ ] Make it a Library
 - [ ] Add Boost Math Support
 - [ ] Containerize the Compiler using Docker
-- [X] Create a CI/CD Pipeline
-- [X] Output executables instead of obj files
 
 ## Dependencies
 

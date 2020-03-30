@@ -61,6 +61,9 @@ blank       [ \t\r]
 "not"               { return yy::parser::make_NOT(loc); }
 "if"                { return yy::parser::make_IF(loc); }
 "else"              { return yy::parser::make_ELSE(loc); }
+"for"               { return yy::parser::make_FOR(loc); }
+"in"                { return yy::parser::make_IN(loc); }
+"range"             { return yy::parser::make_RANGE(loc); }
 "+"                 { return yy::parser::make_PLUS(loc); } 
 "-"                 { return yy::parser::make_MINUS(loc); }
 "*"                 { return yy::parser::make_MUL(loc); }   

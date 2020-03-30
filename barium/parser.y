@@ -10,22 +10,23 @@
 %define parse.assert
 
 // this will be added to the parser.cpp file, cyclic-dependecy is resolved by using
-// forward declaration of the driver class
+// forward declaration of the driver class, this is added verbatim
+// if you want to declare any variables do not do in this requires section
 %code requires {
     #include <string>
     #include <memory>
     #include <typeinfo>
-    #include <sstream>
 
     class driver;
 
     #include "ast_structures.hpp"
+    // love you c++ gods, g++ gave me much help in debugging
+    // <3
+    #include "visitor.hpp"
     #include "visitor_pprint.hpp"
     #include "external/loguru.hpp"
 
     static int cnt = 0;
-
-    // visitor_pprint v_pprint;
 }
 
 // parsing context
@@ -39,7 +40,8 @@
     #include "driver.hpp"
 
     std::shared_ptr<block> program_block;
-    std::stringstream parser_debug;
+
+    visitor_pprint v_pprint;
 }
 
 // to make sure there are no conflicts prepend TOK_
@@ -49,6 +51,9 @@
     AND     "and"
     OR      "or"
     NOT     "not"
+    FOR     "for"
+    IN      "in"
+    RANGE   "range"
     IF      "if"
     ELSE    "else"
     ASSIGN  "="
@@ -68,6 +73,7 @@
 %token  <std::unique_ptr<decimal>>      DECIMAL     "decimal"
 %token  <std::unique_ptr<fraction>>     FRACTION    "fraction"
 %token  <std::unique_ptr<stringlit>>    STRINGLIT   "stringlit"
+%nterm  <std::unique_ptr<identifier>>   identifier // add this for verbosity
 %nterm  <std::unique_ptr<expression>>   expr
 %nterm  <std::unique_ptr<expression>>   literals
 %nterm  <std::unique_ptr<expression>>   binop_expr
@@ -101,15 +107,8 @@
 
 program     : stmts {
 
-                #ifdef DEBUG_PARSER
-                std::cout << "program: " << cnt++ << "\n";
-                #endif
-
-                std::cout << $1.get() << '\n';
-
                 program_block = std::move($1);
-
-                std::cout << program_block.get() << '\n';
+                program_block->accept(v_pprint);
 
                 }
             ;
@@ -119,24 +118,17 @@ program     : stmts {
 
 stmts[block]       : stmt {
 
-                #ifdef DEBUG_PARSER
-                std::cout << "stmt: " << cnt++ << "\n";
-                #endif
-
                 $block = std::make_unique<block>();
 
                 $block->statements.emplace_back(std::move($1));
+                $$->accept(v_pprint);
 
                 }
             | stmts[meow] stmt {
 
-                #ifdef DEBUG_PARSER
-                std::cout << "stmts stmt: " << cnt++ << "\n";
-                #endif
-
                 $meow->statements.emplace_back(std::move($2));
 
-                // i added this because i std::move everytime and this moves the$block also
+                // i added this because i std::move everytime and this moves the $block also
                 // so i std::move back $meow to block to retain the address of main block
                 // it was becoming null before, added null check in main.cpp as well
                 // - shadowleaf
@@ -149,124 +141,100 @@ stmts[block]       : stmt {
 // statement can be an expression or an variable declaration
 
 stmt        : expr {
-                #ifdef DEBUG_PARSER
-                std::cout << "expr: " << cnt++ << "\n";
-                #endif
-
                 $$ = std::make_unique<expr_statement>(std::move($1));
-
+                $$->accept(v_pprint);
                 }
             | var_decl {
-
-                #ifdef DEBUG_PARSER
-                std::cout << "var_decl: " << cnt++ << "\n";
-                #endif
-
                 $$ = std::move($1);
+                $$->accept(v_pprint);
                 }
             | conditional {
                 $$ = std::move($1);
+                $$->accept(v_pprint);
             }
             ;
 
 // a block
 
-block       : "{" stmts "}" { $$ = std::move($2); }
+block       : "{" stmts "}" {
+                    $$ = std::move($2);
+                    $$->accept(v_pprint);
+                    }
             ;
 
 // conditional statement
 
 conditional     : "if" expr block "else" block {
-                    // $$ = std::make_unique
+                    $$ = std::make_unique<conditional>(std::move($2), std::move($3), std::move($5));
+                    $$->accept(v_pprint);
                     }
                 | "if" expr block {
-
+                    $$ = std::make_unique<conditional>(std::move($2), std::move($3));
+                    $$->accept(v_pprint);
                 }
                 ;
 
 // variable declaration and/or assignment
 
 var_decl    : "identifier" "identifier" {
-                #ifdef DEBUG_PARSER
-                std::cout << "var_decl ident ident: " << cnt++ << "\n";
-                #endif
                 $$ = std::make_unique<variable_declaration>(std::move($1), std::move($2));
+                $$->accept(v_pprint);
             }    
             | "identifier" "identifier" "=" expr {
-                #ifdef DEBUG_PARSER
-                std::cout << "var_decl ident ident = expr: " << cnt++ << "\n";
-                #endif
                 $$ = std::make_unique<variable_declaration>(std::move($1), std::move($2), std::move($4));
+                $$->accept(v_pprint);
             }
             ;
 
 // all the literals, like integers, fractions and string literals
 
 literals    : "decimal"  {
-
-                #ifdef DEBUG_PARSER
-                std::cout<< "decimal: " << cnt++ << "\n"; 
-                #endif
                 
                 $$ = std::move($1);
+                $$->accept(v_pprint);
                 
                 }
             | "fraction" {
 
                 $$ = std::move($1);
+                $$->accept(v_pprint);
                 
                 }
             | "stringlit" {
-                
-                #ifdef DEBUG_PARSER
-                std::cout << "stringlit: " << cnt++ << "\n";
-                #endif
 
                 $$ = std::move($1);
+                $$->accept(v_pprint);
 
             }
             ;
 
 // all the expression statements
 
-expr        : "identifier" "=" expr {
-
-                // assignment
-                #ifdef DEBUG_PARSER
-                std::cout << "identifier = expr: " << cnt++ << "\n";
-                #endif
+expr        : identifier "=" expr {
 
                 $$ = std::make_unique<assignment>(std::move($1), std::move($3));
+                $$->accept(v_pprint);
 
                 }
 
-            | "identifier" "(" call_args ")" {
+            | identifier "(" call_args ")" {
                 // function call
-                #ifdef DEBUG_PARSER
-                std::cout << "identifier(call_args): " << cnt++ << "\n";
-                std::cout << $1->name << '\n';
-                #endif
 
                 $$ = std::make_unique<function_call>(std::move($1), std::move($3));
+                $$->accept(v_pprint);
 
                 }
-            | "identifier" {
+            | identifier {
                 // just an identifier
-                #ifdef DEBUG_PARSER
-                std::cout << "identifier: " << cnt++ << "\n";
-                #endif
-
 
                 $$ = std::move($1);
+                $$->accept(v_pprint);
 
                 }
 
             | literals {
 
                 // literal, either decimal or fractional
-                #ifdef DEBUG_PARSER
-                std::cout << "literals: " << cnt++ << "\n";
-                #endif
 
                 $$ = std::move($1);
 
@@ -274,55 +242,41 @@ expr        : "identifier" "=" expr {
             | binop_expr {
 
                 // some binary operation (numeric, not boolean)
-                #ifdef DEBUG_PARSER
-                std::cout << "binop_expr: " << cnt++ << "\n";
-                #endif
 
                 $$ = std::move($1);
-
+                $$->accept(v_pprint);
                 }
             | unaryop_expr {
                 // a and or not, unary boolean expression
-                #ifdef DEBUG_PARSER
-                std::cout << "uparyop_expr: " << cnt++ << '\n';
-                #endif
 
                 $$ = std::move($1);
                 }
             | compare_expr {
                 // a comparison expression
-                LOG_S(INFO) << "compare_expr: " << cnt++; 
+
                 $$ = std::move($1);
-            }
-            | "(" expr ")" { $$ = std::move($2); }
+                }
+            | "(" expr ")" { 
+                $$ = std::move($2);
+                $$->accept(v_pprint);
+                }
             ;
+
+identifier  : "identifier" { $$ = std::move($1); $$->accept(v_pprint); }
 
 // call arguments of a function
 // can be blank
 
 call_args[args_list]   : /*blank*/ {
-                #ifdef DEBUG_PARSER
-                std::cout << "call_args<blank>: " << cnt++ << "\n";
-                #endif
                 $args_list = std::make_unique<std::vector<std::unique_ptr<expression>>>();
                 }
             | expr {
-                #ifdef DEBUG_PARSER
-                std::cout << "call_args: " << cnt++ << "\n";
-                #endif
                 $args_list = std::make_unique<std::vector<std::unique_ptr<expression>>>();
                 $args_list->push_back(std::move($1));
-
                 }
             | call_args[arg] "," expr {
-            
-                #ifdef DEBUG_PARSER
-                std::cout << "call_args, args: " << cnt++ << "\n";
-                #endif
                 $arg->push_back(std::move($3));
-
                 $args_list = std::move($arg);
-
                 }
             ;
 
@@ -331,41 +285,42 @@ call_args[args_list]   : /*blank*/ {
 binop_expr  : expr "and" expr {
 
                 $$ = std::make_unique<binary_operator>('&', std::move($1), std::move($3));
+                $$->accept(v_pprint);
 
                 }
             | expr "or" expr {
 
                 $$ = std::make_unique<binary_operator>('|', std::move($1), std::move($3));
+                $$->accept(v_pprint);
 
                 }
             | expr "+" expr {
-
-                #ifdef DEBUG_PARSER
-                std::cout << "expr + expr: " << cnt++ << "\n";
-                #endif
-
                 $$ = std::make_unique<binary_operator>('+', std::move($1), std::move($3));
+                $$->accept(v_pprint);
 
                 }
             | expr "-" expr {
                 $$ = std::make_unique<binary_operator>('-', std::move($1), std::move($3));
+                $$->accept(v_pprint);
                 }
             | expr "*" expr {
                 $$ = std::make_unique<binary_operator>('*', std::move($1), std::move($3));
+                $$->accept(v_pprint);
                 }
             | expr "/" expr {
                 $$ = std::make_unique<binary_operator>('/', std::move($1), std::move($3));
+                $$->accept(v_pprint);
                 }
             ;
 
 // binary boolean comparison operators
 compare_expr    :   expr ">" expr {
-                        LOG_S(INFO) << "expr > expr";
                         $$ = std::make_unique<comp_operator>(">", std::move($1), std::move($3));
+                        $$->accept(v_pprint);
                     }
                 |   expr ">=" expr {
-                        LOG_S(INFO) << "expr >= expr";
                         $$ = std::make_unique<comp_operator>(">=", std::move($1), std::move($3));
+                        $$->accept(v_pprint);
                 }
                 ;
 
@@ -373,6 +328,7 @@ compare_expr    :   expr ">" expr {
 
 unaryop_expr    : "not" expr {
                     $$ = std::make_unique<unary_operator>('!', std::move($2));
+                    $$->accept(v_pprint);
                     }
                 ;
 

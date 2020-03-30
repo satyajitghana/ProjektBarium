@@ -14,6 +14,7 @@ class binary_operator;
 class unary_operator;
 class identifier;
 class block;
+class assignment;
 class function_call;
 class variable_declaration;
 class comp_operator;
@@ -32,6 +33,7 @@ class visitor {
     virtual void visit_unary_operator(unary_operator* expr) = 0;
     virtual void visit_identifier(identifier* expr) = 0;
     virtual void visit_block(block* expr) = 0;
+    virtual void visit_assignment(assignment* expr) = 0;
     virtual void visit_function_call(function_call* expr) = 0;
     virtual void visit_variable_declaration(variable_declaration* expr) = 0;
     virtual void visit_comp_operator(comp_operator* expr) = 0;

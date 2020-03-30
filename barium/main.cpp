@@ -40,7 +40,6 @@
 // #include "lld/Common/Driver.h"
 
 extern std::shared_ptr<block> program_block;
-extern std::stringstream parser_debug;
 
 int main(int argc, char* argv[]) {
     using namespace llvm;
@@ -78,17 +77,15 @@ int main(int argc, char* argv[]) {
 
     // initiate the driver
     driver drv;
-    parser_debug << "DEBUG INFO PARSER" << '\n';
+
+    // if verbosity is set then log the parser debug info
+    LOG_S(INFO) << "DEBUG INFO PARSER";
     if (InputFilename.empty()) {
         // parse stdin
         drv.parse("stdin");
     } else {
         drv.parse(InputFilename);
     }
-
-
-    // if verbosity is set then log the parser debug info
-    LOG_S(INFO) << parser_debug.str();
 
     if (not ParseOnly) {
         std::string output_file =
