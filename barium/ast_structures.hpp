@@ -36,11 +36,12 @@ class node {
     }
 
     virtual void accept(visitor& v) {
-        std::cerr << "ERROR accept not implemented" << '\n';
+        v.visit_node(this);
     }
 };
 
 class expression : public node {
+    void accept(visitor& v) override { v.visit_expression(this); }
 };
 
 class statement : public node {

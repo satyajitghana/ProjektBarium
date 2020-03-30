@@ -38,4 +38,4 @@ jobs:
         make
     - name: Tests
       run: |
-        ./build/src/barium test_files/test.bar -v INFO --dump-ir
+        ./build/barium/barium test_files/test.bar -v INFO --dump-ir
