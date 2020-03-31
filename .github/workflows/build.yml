@@ -1,4 +1,4 @@
-name: Barium-CI
+name: ubuntu-build
 
 on: [push]
 
