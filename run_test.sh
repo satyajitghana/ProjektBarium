@@ -4,7 +4,7 @@ COLS=100
 
 print_head () {
     print_line
-    echo -e "$1\n"
+    echo "$1\n"
 }
 
 print_line () {
@@ -34,7 +34,7 @@ print_head "performing loops test"
 print_head "performing arrays test"
 ./build/barium/barium test_files/test_array.bar -v INFO --parse-only |& tee logs/test_array.txt
 
-echo -e "test output stored in logs/"
+echo "test output stored in logs/"
 
 duration=$(( SECONDS - start ))
-echo -e "testing took $duration seconds\n"
+echo "testing took $duration seconds\n"
