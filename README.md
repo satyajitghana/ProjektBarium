@@ -50,6 +50,10 @@ Lexical Analyzer (Lex) -> Semantic Parsing (Bison) -> Assembly (LLVM) -> Executa
 - Bison   3.5.2
 - Flex    2.6.4
 
+## Known Issues
+
+- Spacing is required between operators to remove ambiguity
+
 ## Build Barium (Installs Deps)
 
 ```shell

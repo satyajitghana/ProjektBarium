@@ -1,59 +1,59 @@
 date       time                            file:line     v| 
-2020-03-31 19:44:09.785              loguru.cpp:610   INFO| arguments: ./build/barium/barium test_files/test_branch.bar -v INFO --parse-only
-2020-03-31 19:44:09.786              loguru.cpp:613   INFO| Current dir: /mnt/data/Projects/ProjektBarium
-2020-03-31 19:44:09.786              loguru.cpp:615   INFO| stderr verbosity: 0
-2020-03-31 19:44:09.786              loguru.cpp:616   INFO| -----------------------------------
-2020-03-31 19:44:09.786                main.cpp:82    INFO| DEBUG INFO PARSER
-2020-03-31 19:44:09.786      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x55d620efe880, value: 2 ]
-2020-03-31 19:44:09.786      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x55d620efd670, value: 3 ]
-2020-03-31 19:44:09.786      visitor_pprint.cpp:87    INFO| created comp_operator [ addr: 0x55d620efe9b0, op: >, lhs addr: 0x55d620efe880, rhs addr: 0x55d620efd670 ]
-2020-03-31 19:44:09.786      visitor_pprint.cpp:87    INFO| created comp_operator [ addr: 0x55d620efe9b0, op: >, lhs addr: 0x55d620efe880, rhs addr: 0x55d620efd670 ]
-2020-03-31 19:44:09.786      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55d620efe1e0, name: displayln ]
-2020-03-31 19:44:09.786      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x55d620edb730, value: "2 > 3" ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x55d620ed9c50, ident: displayln ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:73    INFO| { visit_function_call
-2020-03-31 19:44:09.787      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x55d620edb730 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
-2020-03-31 19:44:09.787      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x55d620efd7a0 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:28    INFO| { visit_expr_statement
-2020-03-31 19:44:09.787      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x55d620ed9c50 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
-2020-03-31 19:44:09.787      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55d620efe250 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| { visit_block
-2020-03-31 19:44:09.787      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55d620efd7a0 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
-2020-03-31 19:44:09.787      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55d620efe250 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| { visit_block
-2020-03-31 19:44:09.787      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55d620efd7a0 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
-2020-03-31 19:44:09.787      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55d620efd4b0, name: displayln ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x55d620efe2d0, value: "2 < 3" ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x55d620ed5a80, ident: displayln ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:73    INFO| { visit_function_call
-2020-03-31 19:44:09.787      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x55d620efe2d0 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
-2020-03-31 19:44:09.787      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x55d620efd2a0 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:28    INFO| { visit_expr_statement
-2020-03-31 19:44:09.787      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x55d620ed5a80 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
-2020-03-31 19:44:09.787      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55d620ed9a80 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| { visit_block
-2020-03-31 19:44:09.787      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55d620efd2a0 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
-2020-03-31 19:44:09.787      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55d620ed9a80 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| { visit_block
-2020-03-31 19:44:09.787      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55d620efd2a0 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
-2020-03-31 19:44:09.787      visitor_pprint.cpp:91    INFO| created conditional [ addr: 0x55d620efd440, comp_expr: 0x55d620efe9b0, then_expr: 0x55d620efe250 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:93    INFO| { visit_conditional
-2020-03-31 19:44:09.787      visitor_pprint.cpp:94    INFO| .   contains else_expr [ addr: 0x55d620ed9a80 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:93    INFO| } 0.000 s: visit_conditional
-2020-03-31 19:44:09.787      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55d620efe3b0 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| { visit_block
-2020-03-31 19:44:09.787      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55d620efd440 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
-2020-03-31 19:44:09.787      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55d620efe3b0 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| { visit_block
-2020-03-31 19:44:09.787      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55d620efd440 ]
-2020-03-31 19:44:09.787      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
-2020-03-31 19:44:09.787              loguru.cpp:489   INFO| atexit
+2020-04-01 04:53:18.199              loguru.cpp:610   INFO| arguments: ./build/barium/barium test_files/test_branch.bar -v INFO --parse-only
+2020-04-01 04:53:18.199              loguru.cpp:613   INFO| Current dir: /mnt/data/Projects/ProjektBarium
+2020-04-01 04:53:18.199              loguru.cpp:615   INFO| stderr verbosity: 0
+2020-04-01 04:53:18.199              loguru.cpp:616   INFO| -----------------------------------
+2020-04-01 04:53:18.199                main.cpp:82    INFO| DEBUG INFO PARSER
+2020-04-01 04:53:18.199      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x55a4ea3d5880, value: 2 ]
+2020-04-01 04:53:18.199      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x55a4ea3d4670, value: 3 ]
+2020-04-01 04:53:18.199      visitor_pprint.cpp:87    INFO| created comp_operator [ addr: 0x55a4ea3d59b0, op: >, lhs addr: 0x55a4ea3d5880, rhs addr: 0x55a4ea3d4670 ]
+2020-04-01 04:53:18.199      visitor_pprint.cpp:87    INFO| created comp_operator [ addr: 0x55a4ea3d59b0, op: >, lhs addr: 0x55a4ea3d5880, rhs addr: 0x55a4ea3d4670 ]
+2020-04-01 04:53:18.199      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55a4ea3d51e0, name: displayln ]
+2020-04-01 04:53:18.199      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x55a4ea3b2730, value: "2 > 3" ]
+2020-04-01 04:53:18.199      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x55a4ea3b0c50, ident: displayln ]
+2020-04-01 04:53:18.199      visitor_pprint.cpp:73    INFO| { visit_function_call
+2020-04-01 04:53:18.199      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x55a4ea3b2730 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
+2020-04-01 04:53:18.200      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x55a4ea3d47a0 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-04-01 04:53:18.200      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x55a4ea3b0c50 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-04-01 04:53:18.200      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55a4ea3d5250 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| { visit_block
+2020-04-01 04:53:18.200      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55a4ea3d47a0 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
+2020-04-01 04:53:18.200      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55a4ea3d5250 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| { visit_block
+2020-04-01 04:53:18.200      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55a4ea3d47a0 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
+2020-04-01 04:53:18.200      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55a4ea3d44b0, name: displayln ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x55a4ea3d52d0, value: "2 < 3" ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x55a4ea3aca80, ident: displayln ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:73    INFO| { visit_function_call
+2020-04-01 04:53:18.200      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x55a4ea3d52d0 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
+2020-04-01 04:53:18.200      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x55a4ea3d42a0 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-04-01 04:53:18.200      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x55a4ea3aca80 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-04-01 04:53:18.200      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55a4ea3b0a80 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| { visit_block
+2020-04-01 04:53:18.200      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55a4ea3d42a0 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
+2020-04-01 04:53:18.200      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55a4ea3b0a80 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| { visit_block
+2020-04-01 04:53:18.200      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55a4ea3d42a0 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
+2020-04-01 04:53:18.200      visitor_pprint.cpp:91    INFO| created conditional [ addr: 0x55a4ea3d4440, comp_expr: 0x55a4ea3d59b0, then_expr: 0x55a4ea3d5250 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:93    INFO| { visit_conditional
+2020-04-01 04:53:18.200      visitor_pprint.cpp:94    INFO| .   contains else_expr [ addr: 0x55a4ea3b0a80 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:93    INFO| } 0.000 s: visit_conditional
+2020-04-01 04:53:18.200      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55a4ea3d53b0 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| { visit_block
+2020-04-01 04:53:18.200      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55a4ea3d4440 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
+2020-04-01 04:53:18.200      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55a4ea3d53b0 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| { visit_block
+2020-04-01 04:53:18.200      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55a4ea3d4440 ]
+2020-04-01 04:53:18.200      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
+2020-04-01 04:53:18.200              loguru.cpp:489   INFO| atexit
