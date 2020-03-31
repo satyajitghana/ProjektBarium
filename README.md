@@ -59,7 +59,7 @@ $ sudo sh build.sh
 ## Run Tests
 
 ```shell
-$ sh run_test.sh
+$ sh run_tests.sh
 ```
 
 ## Example Run
