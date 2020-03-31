@@ -8,6 +8,18 @@ Tech Stack : Flex, Bison, LLVM
 
 ![Barium-CI](https://github.com/satyajitghana/ProjektBarium/workflows/Barium-CI/badge.svg)
 
+## Status
+
+![language-count](https://img.shields.io/github/languages/count/satyajitghana/ProjektBarium)
+![top-language](https://img.shields.io/github/languages/top/satyajitghana/ProjektBarium)
+![repo-size](https://img.shields.io/github/repo-size/satyajitghana/ProjektBarium)
+![loc-count](https://sloc.xyz/github/satyajitghana/ProjektBarium)
+
+![release-date](https://img.shields.io/github/release-date-pre/satyajitghana/ProjektBarium)
+![release](https://img.shields.io/github/v/release/satyajitghana/ProjektBarium?include_prereleases)
+![license](https://img.shields.io/github/license/satyajitghana/ProjektBarium)
+![maintainer](https://img.shields.io/badge/maintainer-shadowleaf-blue)
+
 ## The Compiler Recipe
 
 Lexical Analyzer (Lex) -> Semantic Parsing (Bison) -> Assembly (LLVM) -> Executable
