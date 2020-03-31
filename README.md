@@ -15,16 +15,16 @@ Lexical Analyzer (Lex) -> Semantic Parsing (Bison) -> Assembly (LLVM) -> Executa
 
 ### Task List
 
-- [X] Add Data Types
+- [X] Add Data Types (decimal, fraction)
 - [X] Operators, Symbols, Reserved Keywords
-- [ ] Add Looping Statements - ongoing
+- [X] Add Looping Statements - ongoing (parse done)
 - [X] Add Control Statements - ongoing (parse done)
 - [X] Add Output Statements - uses vprintf
 - [ ] Add Input Statements
-- [ ] Add Arrays Support
+- [X] Add Arrays Support - ongoing (parse done)
 - [X] Create a CI/CD Pipeline
-- [X] Output executables instead of obj files
-- [ ] locations (YYLTYPE, and @$)
+- [X] Output executables instead of obj files (partial support)
+- [X] locations (YYLTYPE, and @$)
 
 ### Far-fetched task list
 
