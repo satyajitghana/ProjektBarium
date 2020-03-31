@@ -2,16 +2,17 @@
 #include "code_generator.hpp"
 
 #include "parser.hpp"
+#include "location.hh"
+#include "visitor_pprint.hpp"
+#include "external/loguru.hpp"
 
 #include <typeinfo>
 
 llvm::Value* block::code_gen(codegen_context* ctx) {
     llvm::Value* last = nullptr;
-    std::cout << "[ found " << this->statements.size() << " statements ]"
-              << "\n";
+    // LOG_S(INFO) << "[ found " << this->statements.size() << " statements ]";
     for (auto& stmt : this->statements) {
-        std::cout << "[generating code for: " << typeid(*stmt).name() << " ]"
-                  << "\n";
+        // LOG_S(INFO) << "[ generating code for: " << typeid(*stmt).name() << " ]";
         last = stmt->code_gen(ctx);
     }
 
@@ -19,28 +20,24 @@ llvm::Value* block::code_gen(codegen_context* ctx) {
 }
 
 llvm::Value* expr_statement::code_gen(codegen_context* ctx) {
-    std::cout << "[ generating code for: " << typeid(*expr).name() << " ]"
-              << "\n";
+    // LOG_S(INFO) << "[ generating code for: " << typeid(*expr).name() << " ]";
     return this->expr->code_gen(ctx);
 }
 
 llvm::Value* decimal::code_gen(codegen_context* ctx) {
-    std::cout << "[producing decimal for: " << value << " ]"
-              << "\n";
+    // LOG_S(INFO) << "[ producing decimal for: " << value << " ]";
     return llvm::ConstantInt::get(codegen_context::TheContext,
                                   llvm::APInt(64, value));
 }
 
 llvm::Value* fraction::code_gen(codegen_context* ctx) {
-    std::cout << "[producing fraction for: " << value << " ]"
-              << "\n";
+    // LOG_S(INFO) << "[ producing fraction for: " << value << " ]";
     return llvm::ConstantFP::get(codegen_context::TheContext,
                                  llvm::APFloat((double)this->value));
 }
 
 llvm::Value* stringlit::code_gen(codegen_context* ctx) {
-    std::cout << "[producing string literal for: " << value << " ]"
-              << "\n";
+    // LOG_S(INFO) << "[ producing string literal for: " << value << " ]";
     // return
     // codegen_context::Builder.CreateGlobalString(llvm::StringRef(this->value));
 
@@ -79,14 +76,15 @@ llvm::Value* binary_operator::code_gen(codegen_context* ctx) {
     using namespace llvm;
 
     llvm::Value* L = this->lhs->code_gen(ctx);
-    std::cout << "[producing binary_operator for: " << op << " ]"
-              << "\n";
+    // std::cout << "[producing binary_operator for: " << op << " ]"
+    //           << "\n";
     llvm::Value* R = this->rhs->code_gen(ctx);
 
     // check if the value TypeIDs are same for left and right
     // if they are different cast them to doubles, since we only have
     // 2 data types, this works
     if (L->getType()->getTypeID() != R->getType()->getTypeID()) {
+        LOG_S(WARNING) << "data types of binary operands different at, " << visitor_pprint::get_loc(this);
         auto doubleTy = ctx->Builder.getDoubleTy();
 
         // cast RHS
@@ -123,7 +121,7 @@ llvm::Value* binary_operator::code_gen(codegen_context* ctx) {
             op_instr = Instruction::Or;
             break;
         default: {
-            std::cerr << "unknown operator !" << '\n';
+            LOG_S(ERROR) << "unknown operator !" << this->op;
             return nullptr;
         }
     }
@@ -136,8 +134,9 @@ llvm::Value* binary_operator::code_gen(codegen_context* ctx) {
 llvm::Value* unary_operator::code_gen(codegen_context* ctx) {
     using namespace llvm;
 
-    std::cout << "[producing unary operator for: " << this->op << " ]"
-              << "\n";
+    // std::cout << "[producing unary operator for: " << this->op << " ]"
+    //           << "\n";
+    LOG_S(WARNING) << "Producing BITWISE operator at, " << visitor_pprint::get_loc(this);
 
     Value* expr = this->expr->code_gen(ctx);
 
@@ -154,7 +153,7 @@ llvm::Value* unary_operator::code_gen(codegen_context* ctx) {
             un_op = ctx->Builder.CreateBinOp(instr, neg_one, expr, "not_temp");
         } break;
         default: {
-            std::cerr << "unknown operator !" << '\n';
+            LOG_S(ERROR) << "unknown operator !" << this->op;
             return nullptr;
         }
     }
@@ -167,12 +166,12 @@ llvm::Value* unary_operator::code_gen(codegen_context* ctx) {
 llvm::Value* identifier::code_gen(codegen_context* ctx) {
     using namespace llvm;
 
-    std::cout << "[producing identifier for: " << this->name << " ]"
-              << "\n";
+    // std::cout << "[producing identifier for: " << this->name << " ]"
+    //           << "\n";
 
     // check if the variable does not exist in the current locals
     if (ctx->current_block()->locals.find(this->name) == ctx->current_block()->locals.end()) {
-        std::cerr << "undeclared variable " << this->name << " !" << '\n';
+        LOG_S(ERROR) << "undeclared variable " << this->name << ", at: " << visitor_pprint::get_loc(this);
 
         return nullptr;
     }
@@ -186,11 +185,11 @@ llvm::Value* identifier::code_gen(codegen_context* ctx) {
 llvm::Value* assignment::code_gen(codegen_context* ctx) {
     using namespace llvm;
 
-    std::cout << "[producing assignment for: " << lhs->name << " ]"
-              << "\n";
+    // std::cout << "[ producing assignment for: " << lhs->name << " ]"
+    //           << "\n";
     // check if the variable does not exist in the current locals
     if (ctx->current_block()->locals.find(lhs->name) == ctx->current_block()->locals.end()) {
-        std::cerr << "undeclared variable " << lhs->name << " !" << '\n';
+        LOG_S(ERROR) << "undeclared variable " << lhs->name << " !";
 
         return nullptr;
     }
@@ -203,8 +202,8 @@ llvm::Value* assignment::code_gen(codegen_context* ctx) {
 llvm::Value* function_call::code_gen(codegen_context* ctx) {
     using namespace llvm;
 
-    std::cout << "[producing function call for: " << this->ident->name << " ]"
-              << "\n";
+    // std::cout << "[producing function call for: " << this->ident->name << " ]"
+    //           << "\n";
 
     // fetch the function from the module
     Function* function = codegen_context::TheModule->getFunction(this->ident->name.c_str());
@@ -244,8 +243,9 @@ llvm::Value* function_call::code_gen(codegen_context* ctx) {
 llvm::Value* variable_declaration::code_gen(codegen_context* ctx) {
     using namespace llvm;
 
-    std::cout << "[producing variable declaration for: " << this->ident->name << " ]"
-              << "\n";
+    // std::cout << "[producing variable declaration for: " << this->ident->name << " ]"
+    //           << "\n";
+
     if (ctx->current_block()->locals[this->ident->name] != nullptr) {
         std::cout << "error ! " << this->ident->name << " already declared" << '\n';
 
@@ -260,7 +260,7 @@ llvm::Value* variable_declaration::code_gen(codegen_context* ctx) {
 
     // now create an assignment operation for the above allocation
     if (this->assign_expr != nullptr) {
-        assignment assign(std::make_unique<identifier>(this->ident->name), std::move(this->assign_expr));
+        assignment assign(std::make_unique<identifier>(this->ident->name, this->loc), std::move(this->assign_expr));
         assign.code_gen(ctx);
     }
 
@@ -275,7 +275,7 @@ llvm::Value* comp_operator::code_gen(codegen_context* ctx) {
     Value* rhs_val = this->rhs->code_gen(ctx);
 
     if (lhs_val == nullptr or rhs_val == nullptr) {
-        std::cerr << "error ! lhs or rhs of comp operator null !";
+        LOG_S(FATAL) << "error ! lhs or rhs of comp operator null !";
 
         return nullptr;
     }
@@ -293,7 +293,7 @@ llvm::Value* comp_operator::code_gen(codegen_context* ctx) {
     } else if (this->op == ">") {
         predicate = is_double ? CmpInst::FCMP_OGT : CmpInst::ICMP_SGT;
     } else {
-        std::cerr << "operator: " << this->op << " not supported!" << '\n';
+        LOG_S(ERROR) << "operator: " << this->op << " not supported!";
         return nullptr;
     } 
 

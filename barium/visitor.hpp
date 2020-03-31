@@ -19,6 +19,9 @@ class function_call;
 class variable_declaration;
 class comp_operator;
 class conditional;
+class for_loop;
+class for_range;
+class array_access;
 
 class visitor {
     public:
@@ -38,5 +41,8 @@ class visitor {
     virtual void visit_variable_declaration(variable_declaration* expr) = 0;
     virtual void visit_comp_operator(comp_operator* expr) = 0;
     virtual void visit_conditional(conditional* expr) = 0;
+    virtual void visit_for_loop(for_loop* stmt) = 0;
+    virtual void visit_for_range(for_range* stmt) = 0;
+    virtual void visit_array_access(array_access* expr) = 0;
 };
 

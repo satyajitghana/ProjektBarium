@@ -24,6 +24,7 @@ Lexical Analyzer (Lex) -> Semantic Parsing (Bison) -> Assembly (LLVM) -> Executa
 - [ ] Add Arrays Support
 - [X] Create a CI/CD Pipeline
 - [X] Output executables instead of obj files
+- [ ] locations (YYLTYPE, and @$)
 
 ### Far-fetched task list
 
@@ -33,8 +34,9 @@ Lexical Analyzer (Lex) -> Semantic Parsing (Bison) -> Assembly (LLVM) -> Executa
 
 ## Dependencies
 
-LLVM 9.0.1
-Bison 3.5
+- LLVM    9.0.1
+- Bison   3.5.2
+- Flex    2.6.4
 
 ## Build Instructions
 

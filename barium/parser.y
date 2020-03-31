@@ -34,6 +34,7 @@
 
 // for location tracking
 %locations
+%verbose
 
 // because we'll be using the driver class methods
 %code {
@@ -65,6 +66,8 @@
     RPAREN  ")"
     LBRACE  "{"
     RBRACE  "}"
+    LBRACKET "["
+    RBRACKET "]"
     COMMA   ","
     GRT     ">"
     GRTEQ   ">="
@@ -84,8 +87,11 @@
 %nterm  <std::unique_ptr<block>>        block
 %nterm  <std::unique_ptr<statement>>    stmt
 %nterm  <std::unique_ptr<statement>>    conditional
+%nterm  <std::unique_ptr<statement>>    for_loop
+%nterm  <std::unique_ptr<statement>>    for_range
 %nterm  <std::unique_ptr<std::vector<std::unique_ptr<expression>>>> call_args
 %nterm  <std::unique_ptr<variable_declaration>> var_decl
+%nterm  <std::unique_ptr<array_access>> array_access
 
 %printer { yyo << $$; } <*>;
 
@@ -146,11 +152,30 @@ stmt        : expr {
                 }
             | var_decl {
                 $$ = std::move($1);
-                $$->accept(v_pprint);
                 }
             | conditional {
                 $$ = std::move($1);
+                 }
+            | for_loop {
+                $$ = std::move($1);
                 $$->accept(v_pprint);
+                }
+            | for_range {
+                $$ = std::move($1);
+                $$->accept(v_pprint);    
+            }
+            
+            ;
+
+// for loops
+
+for_loop    : "for" "(" expr "," expr "," expr ")" block {
+                $$ = std::make_unique<for_loop>(std::move($3), std::move($5), std::move($7), std::move($9));
+            }
+            ;
+
+for_range   : "for" identifier "in" "range" "decimal" block {
+                $$ = std::make_unique<for_range>(std::move($2), std::move($5), std::move($6));
             }
             ;
 
@@ -191,6 +216,7 @@ var_decl    : "identifier" "identifier" {
 literals    : "decimal"  {
                 
                 $$ = std::move($1);
+                // LOG_S(INFO) << "found decimal at " << @1.begin.line << "." << @1.begin.column;
                 $$->accept(v_pprint);
                 
                 }
@@ -256,6 +282,11 @@ expr        : identifier "=" expr {
 
                 $$ = std::move($1);
                 }
+            | array_access {
+                // accessing an element of array
+
+                $$ = std::move($1);
+                }
             | "(" expr ")" { 
                 $$ = std::move($2);
                 $$->accept(v_pprint);
@@ -280,35 +311,47 @@ call_args[args_list]   : /*blank*/ {
                 }
             ;
 
+// array access for arr[0], arr[<some expr that evaluate to decimal>]
+// or for the future can also be arr['string'] for maps
+array_access    : identifier "[" expr "]" {
+                    $$ = std::make_unique<array_access>(std::move($1), std::move($3));
+                    $$->accept(v_pprint);
+                    }
+                | array_access "[" expr "]" {
+                    $$ = std::make_unique<array_access>(std::move($1), std::move($3));
+                    $$->accept(v_pprint);
+                }
+                ;
+
 // binary operators
 
 binop_expr  : expr "and" expr {
 
-                $$ = std::make_unique<binary_operator>('&', std::move($1), std::move($3));
+                $$ = std::make_unique<binary_operator>('&', std::move($1), std::move($3), @$);
                 $$->accept(v_pprint);
 
                 }
             | expr "or" expr {
 
-                $$ = std::make_unique<binary_operator>('|', std::move($1), std::move($3));
+                $$ = std::make_unique<binary_operator>('|', std::move($1), std::move($3), @$);
                 $$->accept(v_pprint);
 
                 }
             | expr "+" expr {
-                $$ = std::make_unique<binary_operator>('+', std::move($1), std::move($3));
+                $$ = std::make_unique<binary_operator>('+', std::move($1), std::move($3), @$);
                 $$->accept(v_pprint);
 
                 }
             | expr "-" expr {
-                $$ = std::make_unique<binary_operator>('-', std::move($1), std::move($3));
+                $$ = std::make_unique<binary_operator>('-', std::move($1), std::move($3), @$);
                 $$->accept(v_pprint);
                 }
             | expr "*" expr {
-                $$ = std::make_unique<binary_operator>('*', std::move($1), std::move($3));
+                $$ = std::make_unique<binary_operator>('*', std::move($1), std::move($3), @$);
                 $$->accept(v_pprint);
                 }
             | expr "/" expr {
-                $$ = std::make_unique<binary_operator>('/', std::move($1), std::move($3));
+                $$ = std::make_unique<binary_operator>('/', std::move($1), std::move($3), @$);
                 $$->accept(v_pprint);
                 }
             ;
@@ -327,7 +370,7 @@ compare_expr    :   expr ">" expr {
 // unary operations
 
 unaryop_expr    : "not" expr {
-                    $$ = std::make_unique<unary_operator>('!', std::move($2));
+                    $$ = std::make_unique<unary_operator>('!', std::move($2), @$);
                     $$->accept(v_pprint);
                     }
                 ;

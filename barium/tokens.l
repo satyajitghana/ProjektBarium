@@ -45,7 +45,7 @@ blank       [ \t\r]
  /* state automata for string literal */
 
 '                   { g_str = ""; BEGIN(str); } /*eat '*/
-<str>\'             { BEGIN(normal); return yy::parser::make_STRINGLIT(std::make_unique<stringlit>(g_str), loc); }
+<str>\'             { BEGIN(normal); return yy::parser::make_STRINGLIT(std::make_unique<stringlit>(g_str, loc), loc); }
 <str>\\n            g_str += "\n";
 <str>\\t            g_str += "\t";
 <str>\\r            g_str += "\r";
@@ -78,6 +78,8 @@ blank       [ \t\r]
 ")"                 { return yy::parser::make_RPAREN(loc); }
 "{"                 { return yy::parser::make_LBRACE(loc); }
 "}"                 { return yy::parser::make_RBRACE(loc); }
+"["                 { return yy::parser::make_LBRACKET(loc); }
+"]"                 { return yy::parser::make_RBRACKET(loc); }
 ","                 { return yy::parser::make_COMMA(loc); }
 #.*                 /* eat everything; single line comment */
 .                   { throw yy::parser::syntax_error
@@ -88,19 +90,21 @@ blank       [ \t\r]
 %%
 
 yy::parser::symbol_type make_DECIMAL(const std::string& s, const yy::parser::location_type& loc) {
-  std::unique_ptr<decimal> temp = std::make_unique<decimal>(std::strtoll(yytext, NULL, 10));
+  std::unique_ptr<decimal> temp = std::make_unique<decimal>(std::strtoll(yytext, NULL, 10), loc);
   return yy::parser::make_DECIMAL(std::move(temp), loc);
 }
 
 yy::parser::symbol_type make_FRACTION(const std::string& s, const yy::parser::location_type& loc) {
-  std::unique_ptr<fraction> temp = std::make_unique<fraction>(std::strtold(yytext, NULL));
+  std::unique_ptr<fraction> temp = std::make_unique<fraction>(std::strtold(yytext, NULL), loc);
   return yy::parser::make_FRACTION(std::move(temp), loc);
 }
 
 yy::parser::symbol_type make_IDENT(const std::string& s, const yy::parser::location_type& loc) {
-  std::unique_ptr<identifier> temp = std::make_unique<identifier>(s);
+  std::unique_ptr<identifier> temp = std::make_unique<identifier>(s, loc);
   return yy::parser::make_IDENT(std::move(temp), loc);
 }
+
+// code from bison manual: https://www.gnu.org/software/bison/manual/html_node/Calc_002b_002b-Scanner.html
 
 void driver::scan_begin() {
   if (file.empty() || file == "stdin")

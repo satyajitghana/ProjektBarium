@@ -39,10 +39,9 @@ codegen_context::codegen_context() {
 }
 
 void codegen_context::generate_code(std::shared_ptr<block> root, bool dump_ir = false) {
-    std::cout << "Generating LLVM IR: "
-              << "\n";
+    LOG_S(INFO) << "Generating LLVM IR";
 
-    std::cout << "setting up in-builts\n";
+    LOG_S(INFO) << "setting up in-builts";
 
     // add the inbuilt functions to the module
     setup_inbuilts();
@@ -78,7 +77,7 @@ void codegen_context::generate_code(std::shared_ptr<block> root, bool dump_ir = 
 
 llvm::GenericValue codegen_context::run_code() {
     using namespace llvm;
-    std::cout << "Running Code!" << '\n';
+    LOG_S(INFO) << "Running Code!";
 
     TargetOptions Opts;
 
@@ -106,12 +105,10 @@ llvm::GenericValue codegen_context::run_code() {
 
     std::vector<GenericValue> noargs;
 
-    std::cout << "hi" << '\n';
-
     // fetch the returned value of the main funciton
     GenericValue val_ret = execution_engine->runFunction(this->main_function, noargs);
 
-    std::cout << "Code was run!" << '\n';
+    LOG_S(INFO) << "code was run!";
 
     return val_ret;
 }
