@@ -75,3 +75,7 @@ Debug Verbose Run
 ```shell
 $ ./barium test_files/test_all_ir.bar -v INFO
 ```
+
+## Screenshot
+
+![help](screenshots/help.png)
