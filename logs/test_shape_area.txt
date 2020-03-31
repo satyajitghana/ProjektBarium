@@ -1,0 +1,167 @@
+date       time                            file:line     v| 
+2020-03-31 19:32:42.478              loguru.cpp:610   INFO| arguments: ./build/barium/barium test_files/test_shape_area.bar -v INFO --dump-ir
+2020-03-31 19:32:42.478              loguru.cpp:613   INFO| Current dir: /mnt/data/Projects/ProjektBarium
+2020-03-31 19:32:42.478              loguru.cpp:615   INFO| stderr verbosity: 0
+2020-03-31 19:32:42.478              loguru.cpp:616   INFO| -----------------------------------
+2020-03-31 19:32:42.479                main.cpp:82    INFO| DEBUG INFO PARSER
+2020-03-31 19:32:42.486      visitor_pprint.cpp:38    INFO| created fraction [ addr: 0x55da65bb9670, value: 0 ]
+2020-03-31 19:32:42.486      visitor_pprint.cpp:83    INFO| created variable_declaration [ addr: 0x55da65bbaa20, type: fraction, ident: area, assign_expr: 0x55da65bb9670 ]
+2020-03-31 19:32:42.486      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55da65bba250 ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:60    INFO| { visit_block
+2020-03-31 19:32:42.487      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55da65bbaa20 ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
+2020-03-31 19:32:42.487      visitor_pprint.cpp:38    INFO| created fraction [ addr: 0x55da65b95a10, value: 3.14159 ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:83    INFO| created variable_declaration [ addr: 0x55da65b95a80, type: fraction, ident: PI, assign_expr: 0x55da65b95a10 ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:38    INFO| created fraction [ addr: 0x55da65bb94b0, value: 20.5 ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:83    INFO| created variable_declaration [ addr: 0x55da65b97730, type: fraction, ident: rad, assign_expr: 0x55da65bb94b0 ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bba2d0, name: area ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bba3b0, name: PI ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bba3b0, name: PI ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bb9aa0, name: rad ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bb9aa0, name: rad ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bba5f0, op: *, lhs addr: 0x55da65bba3b0, rhs addr: 0x55da65bb9aa0 ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bba5f0, op: *, lhs addr: 0x55da65bba3b0, rhs addr: 0x55da65bb9aa0 ]
+2020-03-31 19:32:42.487      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bba660, name: rad ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bba660, name: rad ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bb9f70, op: *, lhs addr: 0x55da65bba5f0, rhs addr: 0x55da65bba660 ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bb9f70, op: *, lhs addr: 0x55da65bba5f0, rhs addr: 0x55da65bba660 ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:68    INFO| created assignment [ addr: 0x55da65bb9f00, lhs addr: 0x55da65bba2d0, rhs addr: 0x55da65bb9f70 ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x55da65bb9b10 ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-03-31 19:32:42.488      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x55da65bb9f00 ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-03-31 19:32:42.488      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bba740, name: displayln ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x55da65bba050, value: "area of circle with rad %.5f = %.20f sq units" ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65b95e60, name: rad ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65b95e60, name: rad ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65b95fb0, name: area ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65b95fb0, name: area ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x55da65bb9a30, ident: displayln ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:73    INFO| { visit_function_call
+2020-03-31 19:32:42.488      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x55da65bba050 ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x55da65b95e60 ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x55da65b95fb0 ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
+2020-03-31 19:32:42.488      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x55da65b96090 ]
+2020-03-31 19:32:42.488      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-03-31 19:32:42.489      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x55da65bb9a30 ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-03-31 19:32:42.489      visitor_pprint.cpp:38    INFO| created fraction [ addr: 0x55da65b96250, value: 69.6 ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:83    INFO| created variable_declaration [ addr: 0x55da65b96100, type: fraction, ident: height, assign_expr: 0x55da65b96250 ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65b96330, name: area ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:38    INFO| created fraction [ addr: 0x55da65bc39c0, value: 2 ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc3aa0, name: PI ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc3aa0, name: PI ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc3bf0, op: *, lhs addr: 0x55da65bc39c0, rhs addr: 0x55da65bc3aa0 ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc3bf0, op: *, lhs addr: 0x55da65bc39c0, rhs addr: 0x55da65bc3aa0 ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc3c60, name: rad ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc3c60, name: rad ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc3db0, op: *, lhs addr: 0x55da65bc3bf0, rhs addr: 0x55da65bc3c60 ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc3db0, op: *, lhs addr: 0x55da65bc3bf0, rhs addr: 0x55da65bc3c60 ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc3e20, name: height ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc3e20, name: height ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc3f70, op: *, lhs addr: 0x55da65bc3db0, rhs addr: 0x55da65bc3e20 ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc3f70, op: *, lhs addr: 0x55da65bc3db0, rhs addr: 0x55da65bc3e20 ]
+2020-03-31 19:32:42.489      visitor_pprint.cpp:38    INFO| created fraction [ addr: 0x55da65bc3fe0, value: 2 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc40c0, name: PI ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc40c0, name: PI ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc4210, op: *, lhs addr: 0x55da65bc3fe0, rhs addr: 0x55da65bc40c0 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc4210, op: *, lhs addr: 0x55da65bc3fe0, rhs addr: 0x55da65bc40c0 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc4280, name: rad ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc4280, name: rad ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc43d0, op: *, lhs addr: 0x55da65bc4210, rhs addr: 0x55da65bc4280 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc43d0, op: *, lhs addr: 0x55da65bc4210, rhs addr: 0x55da65bc4280 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc4440, name: rad ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc4440, name: rad ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc4600, op: *, lhs addr: 0x55da65bc43d0, rhs addr: 0x55da65bc4440 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc4600, op: *, lhs addr: 0x55da65bc43d0, rhs addr: 0x55da65bc4440 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc4670, op: +, lhs addr: 0x55da65bc3f70, rhs addr: 0x55da65bc4600 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x55da65bc4670, op: +, lhs addr: 0x55da65bc3f70, rhs addr: 0x55da65bc4600 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:68    INFO| created assignment [ addr: 0x55da65bc4590, lhs addr: 0x55da65b96330, rhs addr: 0x55da65bc4670 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x55da65bc3950 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-03-31 19:32:42.490      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x55da65bc4590 ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-03-31 19:32:42.490      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc4520, name: displayln ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x55da65bc47c0, value: "surface area of cylinder with height %.5f = %.20f sq units" ]
+2020-03-31 19:32:42.490      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc4830, name: height ]
+2020-03-31 19:32:42.491      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc4830, name: height ]
+2020-03-31 19:32:42.491      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc4980, name: area ]
+2020-03-31 19:32:42.491      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x55da65bc4980, name: area ]
+2020-03-31 19:32:42.491      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x55da65bc4a60, ident: displayln ]
+2020-03-31 19:32:42.491      visitor_pprint.cpp:73    INFO| { visit_function_call
+2020-03-31 19:32:42.491      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x55da65bc47c0 ]
+2020-03-31 19:32:42.491      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x55da65bc4830 ]
+2020-03-31 19:32:42.491      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x55da65bc4980 ]
+2020-03-31 19:32:42.491      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
+2020-03-31 19:32:42.491      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x55da65bc49f0 ]
+2020-03-31 19:32:42.491      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-03-31 19:32:42.491      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x55da65bc4a60 ]
+2020-03-31 19:32:42.491      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-03-31 19:32:42.491      visitor_pprint.cpp:58    INFO| created block [ addr: 0x55da65bba250 ]
+2020-03-31 19:32:42.492      visitor_pprint.cpp:60    INFO| { visit_block
+2020-03-31 19:32:42.492      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55da65bbaa20 ]
+2020-03-31 19:32:42.492      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55da65b95a80 ]
+2020-03-31 19:32:42.492      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55da65b97730 ]
+2020-03-31 19:32:42.492      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55da65bb9b10 ]
+2020-03-31 19:32:42.492      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55da65b96090 ]
+2020-03-31 19:32:42.492      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55da65b96100 ]
+2020-03-31 19:32:42.492      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55da65bc3950 ]
+2020-03-31 19:32:42.492      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x55da65bc49f0 ]
+2020-03-31 19:32:42.492      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
+2020-03-31 19:32:42.493      code_generator.cpp:42    INFO| Generating LLVM IR
+2020-03-31 19:32:42.493      code_generator.cpp:44    INFO| setting up in-builts
+2020-03-31 19:32:42.493      code_generator.cpp:73    INFO| Generated IR
+; ModuleID = 'barium-jit'
+source_filename = "barium-jit"
+
+@.str = private constant [46 x i8] c"area of circle with rad %.5f = %.20f sq units\00", align 1
+@.str.1 = private constant [59 x i8] c"surface area of cylinder with height %.5f = %.20f sq units\00", align 1
+
+declare void @display(i8*, ...)
+
+declare void @displayln(i8*, ...)
+
+define i64 @main() {
+entry:
+  %height = alloca double
+  %rad = alloca double
+  %PI = alloca double
+  %area = alloca double
+  store double 0.000000e+00, double* %area
+  store double 0x400921FB54442D18, double* %PI
+  store double 2.050000e+01, double* %rad
+  %PI1 = load double, double* %PI
+  %rad2 = load double, double* %rad
+  %math_tmp = fmul double %PI1, %rad2
+  %rad3 = load double, double* %rad
+  %math_tmp4 = fmul double %math_tmp, %rad3
+  store double %math_tmp4, double* %area
+  %rad5 = load double, double* %rad
+  %area6 = load double, double* %area
+  call void (i8*, ...) @displayln(i8* getelementptr inbounds ([46 x i8], [46 x i8]* @.str, i64 0, i64 0), double %rad5, double %area6)
+  store double 6.960000e+01, double* %height
+  %PI7 = load double, double* %PI
+  %math_tmp8 = fmul double 2.000000e+00, %PI7
+  %rad9 = load double, double* %rad
+  %math_tmp10 = fmul double %math_tmp8, %rad9
+  %height11 = load double, double* %height
+  %math_tmp12 = fmul double %math_tmp10, %height11
+  %PI13 = load double, double* %PI
+  %math_tmp14 = fmul double 2.000000e+00, %PI13
+  %rad15 = load double, double* %rad
+  %math_tmp16 = fmul double %math_tmp14, %rad15
+  %rad17 = load double, double* %rad
+  %math_tmp18 = fmul double %math_tmp16, %rad17
+  %math_tmp19 = fadd double %math_tmp12, %math_tmp18
+  store double %math_tmp19, double* %area
+  %height20 = load double, double* %height
+  %area21 = load double, double* %area
+  call void (i8*, ...) @displayln(i8* getelementptr inbounds ([59 x i8], [59 x i8]* @.str.1, i64 0, i64 0), double %height20, double %area21)
+  ret i64 1
+}
+2020-03-31 19:32:42.495      code_generator.cpp:80    INFO| Running Code!
+2020-03-31 19:32:42.504      code_generator.cpp:111   INFO| code was run!
+2020-03-31 19:32:42.504              loguru.cpp:489   INFO| atexit
+area of circle with rad 20.50000 = 1320.25431267111048327934 sq units
+surface area of cylinder with height 69.60000 = 11605.35742162605311023071 sq units

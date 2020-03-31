@@ -1,0 +1,3 @@
+displayln('hello')
+decimal meow
+read('%d', meow)

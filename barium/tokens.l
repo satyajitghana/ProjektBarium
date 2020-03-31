@@ -71,6 +71,10 @@ blank       [ \t\r]
 "="                 { return yy::parser::make_ASSIGN(loc); }
 ">"                 { return yy::parser::make_GRT(loc); }
 ">="                { return yy::parser::make_GRTEQ(loc); }
+"<"                 { return yy::parser::make_LES(loc); }
+"<="                { return yy::parser::make_LESEQ(loc); }
+"!="                { return yy::parser::make_NOTEQ(loc); }
+"=="                { return yy::parser::make_EQUAL(loc); }
 {num}+\.{num}*      { return make_FRACTION(yytext, loc); }
 -?{num}+            { return make_DECIMAL(yytext, loc); }
 {ident}             { return make_IDENT(yytext, loc); }

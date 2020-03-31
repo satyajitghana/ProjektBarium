@@ -30,27 +30,28 @@ void visitor_pprint::visit_expr_statement(expr_statement* expr) {
 }
 
 void visitor_pprint::visit_decimal(decimal* expr) {
-    LOG_S(INFO) << "created decimal [ " << get_loc(expr) << ", addr: " << expr << ", value: " << expr->value << " ]";
+    // LOG_S(INFO) << "created decimal [ " << get_loc(expr) << ", addr: " << expr << ", value: " << expr->value << " ]";
+    LOG_S(INFO) << "created decimal [ addr: " << expr << ", value: " << expr->value << " ]";
 }
 
 void visitor_pprint::visit_fraction(fraction* expr) {
-    LOG_S(INFO) << "created fraction [ " << get_loc(expr) << ", addr: " << expr << ", value: " << expr->value << " ]";
+    LOG_S(INFO) << "created fraction [ addr: " << expr << ", value: " << expr->value << " ]";
 }
 
 void visitor_pprint::visit_stringlit(stringlit* expr) {
-    LOG_S(INFO) << "created stringlit [ " << get_loc(expr) << ", addr: " << expr << ", value: \"" << expr->value << "\" ]";
+    LOG_S(INFO) << "created stringlit [ addr: " << expr << ", value: \"" << expr->value << "\" ]";
 }
 
 void visitor_pprint::visit_binary_operator(binary_operator* expr) {
-    LOG_S(INFO) << "created binary operator [ " << get_loc(expr) << ", addr: " << expr << ", op: " << expr->op << ", lhs addr: " << expr->lhs.get() << ", rhs addr: " << expr->rhs.get() << " ]";
+    LOG_S(INFO) << "created binary operator [ addr: " << expr << ", op: " << expr->op << ", lhs addr: " << expr->lhs.get() << ", rhs addr: " << expr->rhs.get() << " ]";
 }
 
 void visitor_pprint::visit_unary_operator(unary_operator* expr) {
-    LOG_S(INFO) << "created unary operator [ " << get_loc(expr) << ", addr: " << expr << ", op: " << expr->op << ", operand: " << expr->expr.get() << " ]";
+    LOG_S(INFO) << "created unary operator [ addr: " << expr << ", op: " << expr->op << ", operand: " << expr->expr.get() << " ]";
 }
 
 void visitor_pprint::visit_identifier(identifier* expr) {
-    LOG_S(INFO) << "created identifier [ " << get_loc(expr) << ", addr: " << expr << ", name: " << expr->name << " ]";
+    LOG_S(INFO) << "created identifier [ addr: " << expr << ", name: " << expr->name << " ]";
 }
 
 void visitor_pprint::visit_block(block* expr) {

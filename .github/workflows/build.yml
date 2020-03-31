@@ -20,3 +20,13 @@ jobs:
     - name: Perform test
       run: |
         sh run_test.sh
+    - name: save test logs
+      run: |
+        rm -r ubuntu_logs
+        mv logs ubuntu_logs
+        git config --global user.name 'Satyajit Ghana'
+        git config --global user.email 'satyajitghana@users.noreply.github.com'
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+        git add ubuntu-logs
+        git commit -am "Automated test logs"
+        git push

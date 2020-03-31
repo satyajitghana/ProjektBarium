@@ -1,0 +1,13 @@
+# calculate the area of a shapes
+fraction area = 0.0
+fraction PI = 3.141592653589793238462643383279502884197169
+
+# 1. circle
+fraction rad = 20.5
+area = PI * rad * rad
+displayln('area of circle with rad %.5f = %.20f sq units', rad, area)
+
+# 2. surface area of cylinder use radius of above circle
+fraction height = 69.6
+area = 2.0 * PI * rad * height + 2.0 * PI * rad * rad
+displayln('surface area of cylinder with height %.5f = %.20f sq units', height, area) 

@@ -1,0 +1,2 @@
+displayln('arr[0] = %d', arr[0])
+displayln('arr[1][2] = %d', arr[1][2])

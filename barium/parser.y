@@ -71,6 +71,10 @@
     COMMA   ","
     GRT     ">"
     GRTEQ   ">="
+    LES     "<"
+    LESEQ   "<="
+    NOTEQ   "!="
+    EQUAL   "=="
 
 %token  <std::unique_ptr<identifier>>   IDENT       "identifier"
 %token  <std::unique_ptr<decimal>>      DECIMAL     "decimal"
@@ -363,6 +367,26 @@ compare_expr    :   expr ">" expr {
                     }
                 |   expr ">=" expr {
                         $$ = std::make_unique<comp_operator>(">=", std::move($1), std::move($3));
+                        $$->accept(v_pprint);
+                    }
+                |   expr "<" expr {
+
+                        $$ = std::make_unique<comp_operator>("<", std::move($1), std::move($3));
+                        $$->accept(v_pprint);
+                    }
+                |   expr "<=" expr {
+
+                        $$ = std::make_unique<comp_operator>("<=", std::move($1), std::move($3));
+                        $$->accept(v_pprint);
+                    }
+                |   expr "==" expr {
+
+                        $$ = std::make_unique<comp_operator>("==", std::move($1), std::move($3));
+                        $$->accept(v_pprint);
+                    }
+                |   expr "!=" expr {
+
+                        $$ = std::make_unique<comp_operator>("!=", std::move($1), std::move($3));
                         $$->accept(v_pprint);
                 }
                 ;
