@@ -50,19 +50,28 @@ Lexical Analyzer (Lex) -> Semantic Parsing (Bison) -> Assembly (LLVM) -> Executa
 - Bison   3.5.2
 - Flex    2.6.4
 
-## Build Instructions
+## Build Barium (Installs Deps)
 
+```shell
+$ sudo sh build.sh
+```
+
+## Run Tests
+
+```shell
+$ sh run_test.sh
+```
 
 ## Example Run
 
 Normal Run
 
 ```shell
-$ ./barium test_files/test.bar -v OFF
+$ ./barium test_files/test_all_ir.bar -v OFF
 ```
 
 Debug Verbose Run
 
 ```shell
-$ ./barium test_files/test.bar -v INFO
+$ ./barium test_files/test_all_ir.bar -v INFO
 ```
