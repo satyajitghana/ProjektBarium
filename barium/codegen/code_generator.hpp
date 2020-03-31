@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ast_structures.hpp"
+#include "../ast/ast_structures.hpp"
 
 #include <algorithm>
 #include <cctype>

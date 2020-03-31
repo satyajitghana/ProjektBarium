@@ -1,10 +1,10 @@
 #include "ast_structures.hpp"
-#include "code_generator.hpp"
+#include "../codegen/code_generator.hpp"
 
 #include "parser.hpp"
 #include "location.hh"
-#include "visitor_pprint.hpp"
-#include "external/loguru.hpp"
+#include "../visitor/visitor_pprint.hpp"
+#include "../external/loguru.hpp"
 
 #include <typeinfo>
 

@@ -1,7 +1,7 @@
 #include "visitor_pprint.hpp"
 
-#include "external/loguru.hpp"
-#include "ast_structures.hpp"
+#include "../external/loguru.hpp"
+#include "../ast/ast_structures.hpp"
 
 std::string visitor_pprint::get_loc(node* node) {
     std::stringstream ss;

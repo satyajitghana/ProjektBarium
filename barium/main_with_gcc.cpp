@@ -2,9 +2,9 @@
 #include <iostream>
 #include <memory>
 
-#include "ast_structures.hpp"
-#include "code_generator.hpp"
-#include "driver.hpp"
+#include "ast/ast_structures.hpp"
+#include "codegen/code_generator.hpp"
+#include "driver/driver.hpp"
 
 #include "llvm/ADT/APFloat.h"
 #include "llvm/ADT/ArrayRef.h"

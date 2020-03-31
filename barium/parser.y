@@ -19,11 +19,11 @@
 
     class driver;
 
-    #include "ast_structures.hpp"
+    #include "ast/ast_structures.hpp"
     // love you c++ gods, g++ gave me much help in debugging
     // <3
-    #include "visitor.hpp"
-    #include "visitor_pprint.hpp"
+    #include "visitor/visitor.hpp"
+    #include "visitor/visitor_pprint.hpp"
     #include "external/loguru.hpp"
 
     static int cnt = 0;
@@ -38,7 +38,7 @@
 
 // because we'll be using the driver class methods
 %code {
-    #include "driver.hpp"
+    #include "driver/driver.hpp"
 
     std::shared_ptr<block> program_block;
 

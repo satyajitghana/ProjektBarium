@@ -5,9 +5,9 @@
     #include <cstdlib>
     #include <cstring> // strerror
 
-    #include "driver.hpp"
+    #include "driver/driver.hpp"
     #include "parser.hpp"
-    #include "ast_structures.hpp"
+    #include "ast/ast_structures.hpp"
 
     // temporary for storing the string literal
     std::string g_str;

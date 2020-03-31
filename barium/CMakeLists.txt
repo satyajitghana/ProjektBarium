@@ -9,10 +9,8 @@ FIND_PACKAGE(BISON)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-set(HELPER_FILES visitor.hpp visitor_pprint.cpp visitor_pprint.hpp)
-
-set(SOURCES_COMMON main.cpp driver.cpp ast_structures.cpp code_generator.cpp extern_func.cpp parser.y tokens.l)
-set(HEADERS_COMMON driver.hpp ast_structures.hpp code_generator.hpp extern_func.hpp)
+set(SOURCES_COMMON main.cpp parser.y tokens.l)
+set(HEADERS_COMMON codegen/extern_func.hpp)
 
 # create the tokenizer
 FLEX_TARGET(Scanner tokens.l ${CMAKE_CURRENT_BINARY_DIR}/tokens.cpp)
@@ -36,13 +34,28 @@ add_definitions(${LLVM_DEFINITIONS})
 # external sources
 aux_source_directory(external EXTERNAL_HEADERS)
 
+# visitor
+aux_source_directory(visitor VISITOR_SOURCES)
+
+# driver
+aux_source_directory(driver DRIVER_SOURCES)
+
+# AST
+aux_source_directory(ast AST_SOURCES)
+
+# codegen
+aux_source_directory(codegen CODEGEN_SOURCES)
+
 # add the executable to the project with the Scanner and the Parser
 add_executable(barium ${SOURCES_COMMON}
                       ${HEADERS_COMMON} 
                       ${FLEX_Scanner_OUTPUTS}
                       ${BISON_Parser_OUTPUTS}
                       ${EXTERNAL_HEADERS}
-                      ${HELPER_FILES})
+                      ${VISITOR_SOURCES}
+                      ${DRIVER_SOURCES}
+                      ${AST_SOURCES}
+                      ${CODEGEN_SOURCES})
 
 
 target_compile_definitions(barium PRIVATE LOGURU_WITH_STREAMS=1)

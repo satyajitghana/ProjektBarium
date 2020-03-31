@@ -4,11 +4,11 @@
 #include <iostream>
 #include <vector>
 
-#include "visitor.hpp"
+#include "../visitor/visitor.hpp"
 #include "location.hh"
 
 // this produces cyclic import problem
-// #include "code_generator.hpp"
+// #include "codegen/code_generator.hpp"
 // so forward declare codegen_context
 class codegen_context;
 

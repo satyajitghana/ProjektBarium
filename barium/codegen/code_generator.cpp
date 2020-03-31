@@ -1,6 +1,6 @@
 #include "code_generator.hpp"
 
-#include "external/loguru.hpp"
+#include "../external/loguru.hpp"
 
 #include "llvm/ExecutionEngine/ExecutionEngine.h"
 #include "llvm/ExecutionEngine/GenericValue.h"

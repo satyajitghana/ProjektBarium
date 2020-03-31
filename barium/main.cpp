@@ -3,9 +3,9 @@
 #include <memory>
 #include <sstream>
 
-#include "ast_structures.hpp"
-#include "code_generator.hpp"
-#include "driver.hpp"
+#include "ast/ast_structures.hpp"
+#include "codegen/code_generator.hpp"
+#include "driver/driver.hpp"
 
 #include "external/loguru.hpp"
 
