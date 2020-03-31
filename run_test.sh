@@ -1,13 +1,13 @@
 #!/bin/bash
 
-COLS=$(tput cols)
+COLS=100
 
-function print_head {
+print_head () {
     print_line
     echo -e "$1\n"
 }
 
-function print_line {
+print_line () {
     printf '=%.0s' $(seq $COLS)
     printf "\n"
 }

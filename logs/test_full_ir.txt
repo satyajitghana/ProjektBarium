@@ -1,126 +1,126 @@
 date       time                            file:line     v| 
-2020-03-31 19:32:42.151              loguru.cpp:610   INFO| arguments: ./build/barium/barium test_files/test_all_ir.bar -v INFO --dump-ir
-2020-03-31 19:32:42.152              loguru.cpp:613   INFO| Current dir: /mnt/data/Projects/ProjektBarium
-2020-03-31 19:32:42.152              loguru.cpp:615   INFO| stderr verbosity: 0
-2020-03-31 19:32:42.152              loguru.cpp:616   INFO| -----------------------------------
-2020-03-31 19:32:42.152                main.cpp:82    INFO| DEBUG INFO PARSER
-2020-03-31 19:32:42.164      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x562a8e4fda80, name: displayln ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x562a8e5257a0, value: "hellow fellow bariums" ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x562a8e501c50, ident: displayln ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:73    INFO| { visit_function_call
-2020-03-31 19:32:42.164      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x562a8e5257a0 ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
-2020-03-31 19:32:42.164      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x562a8e501a80 ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:28    INFO| { visit_expr_statement
-2020-03-31 19:32:42.164      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x562a8e501c50 ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
-2020-03-31 19:32:42.164      visitor_pprint.cpp:58    INFO| created block [ addr: 0x562a8e526880 ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:60    INFO| { visit_block
-2020-03-31 19:32:42.164      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x562a8e501a80 ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
-2020-03-31 19:32:42.164      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e5269b0, value: 20 ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:83    INFO| created variable_declaration [ addr: 0x562a8e5261e0, type: decimal, ident: meow, assign_expr: 0x562a8e5269b0 ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x562a8e5251d0, name: displayln ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x562a8e5262d0, value: "meow value is %f" ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x562a8e5263b0, name: meow ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x562a8e5263b0, name: meow ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:38    INFO| created fraction [ addr: 0x562a8e525aa0, value: 3 ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e525b80, op: /, lhs addr: 0x562a8e5263b0, rhs addr: 0x562a8e525aa0 ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e525b80, op: /, lhs addr: 0x562a8e5263b0, rhs addr: 0x562a8e525aa0 ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x562a8e526a10, ident: displayln ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:73    INFO| { visit_function_call
-2020-03-31 19:32:42.164      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x562a8e5262d0 ]
-2020-03-31 19:32:42.164      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x562a8e525b80 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
-2020-03-31 19:32:42.165      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x562a8e525b10 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:28    INFO| { visit_expr_statement
-2020-03-31 19:32:42.165      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x562a8e526a10 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
-2020-03-31 19:32:42.165      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x562a8e526680, name: displayln ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x562a8e526760, value: "2+3*4+2+2*12 = %d" ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e525f70, value: 2 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e526040, value: 3 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e501e60, value: 4 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e501f30, op: *, lhs addr: 0x562a8e526040, rhs addr: 0x562a8e501e60 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e501f30, op: *, lhs addr: 0x562a8e526040, rhs addr: 0x562a8e501e60 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e501fa0, op: +, lhs addr: 0x562a8e525f70, rhs addr: 0x562a8e501f30 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e501fa0, op: +, lhs addr: 0x562a8e525f70, rhs addr: 0x562a8e501f30 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e502080, value: 2 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e5020e0, op: +, lhs addr: 0x562a8e501fa0, rhs addr: 0x562a8e502080 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e5020e0, op: +, lhs addr: 0x562a8e501fa0, rhs addr: 0x562a8e502080 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e5021c0, value: 2 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e502220, value: 12 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e5022f0, op: *, lhs addr: 0x562a8e5021c0, rhs addr: 0x562a8e502220 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e5022f0, op: *, lhs addr: 0x562a8e5021c0, rhs addr: 0x562a8e502220 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e52f950, op: +, lhs addr: 0x562a8e5020e0, rhs addr: 0x562a8e5022f0 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e52f950, op: +, lhs addr: 0x562a8e5020e0, rhs addr: 0x562a8e5022f0 ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x562a8e502280, ident: displayln ]
-2020-03-31 19:32:42.165      visitor_pprint.cpp:73    INFO| { visit_function_call
-2020-03-31 19:32:42.166      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x562a8e526760 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x562a8e52f950 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
-2020-03-31 19:32:42.166      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x562a8e501ec0 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:28    INFO| { visit_expr_statement
-2020-03-31 19:32:42.166      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x562a8e502280 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
-2020-03-31 19:32:42.166      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x562a8e52fa30, name: displayln ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x562a8e52fb10, value: "0 or 2 = %d" ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e52fbf0, value: 0 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e52fcc0, value: 2 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e52fd90, op: |, lhs addr: 0x562a8e52fbf0, rhs addr: 0x562a8e52fcc0 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e52fd90, op: |, lhs addr: 0x562a8e52fbf0, rhs addr: 0x562a8e52fcc0 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x562a8e5260a0, ident: displayln ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:73    INFO| { visit_function_call
-2020-03-31 19:32:42.166      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x562a8e52fb10 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x562a8e52fd90 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
-2020-03-31 19:32:42.166      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x562a8e52fd20 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:28    INFO| { visit_expr_statement
-2020-03-31 19:32:42.166      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x562a8e5260a0 ]
-2020-03-31 19:32:42.166      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
-2020-03-31 19:32:42.166      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x562a8e52fe70, name: displayln ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x562a8e52ff50, value: "not 0 = %d" ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e530030, value: 0 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:50    INFO| created unary operator [ addr: 0x562a8e530100, op: !, operand: 0x562a8e530030 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x562a8e52fc50, ident: displayln ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:73    INFO| { visit_function_call
-2020-03-31 19:32:42.167      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x562a8e52ff50 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x562a8e530100 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
-2020-03-31 19:32:42.167      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x562a8e530090 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:28    INFO| { visit_expr_statement
-2020-03-31 19:32:42.167      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x562a8e52fc50 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
-2020-03-31 19:32:42.167      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x562a8e530230, name: displayln ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x562a8e530310, value: "1 and 1 = %d" ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e530160, value: 1 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x562a8e530460, value: 1 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e530530, op: &, lhs addr: 0x562a8e530160, rhs addr: 0x562a8e530460 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x562a8e530530, op: &, lhs addr: 0x562a8e530160, rhs addr: 0x562a8e530460 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x562a8e525fd0, ident: displayln ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:73    INFO| { visit_function_call
-2020-03-31 19:32:42.167      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x562a8e530310 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x562a8e530530 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
-2020-03-31 19:32:42.167      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x562a8e5304c0 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:28    INFO| { visit_expr_statement
-2020-03-31 19:32:42.167      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x562a8e525fd0 ]
-2020-03-31 19:32:42.167      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
-2020-03-31 19:32:42.168      visitor_pprint.cpp:58    INFO| created block [ addr: 0x562a8e526880 ]
-2020-03-31 19:32:42.168      visitor_pprint.cpp:60    INFO| { visit_block
-2020-03-31 19:32:42.168      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x562a8e501a80 ]
-2020-03-31 19:32:42.168      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x562a8e5261e0 ]
-2020-03-31 19:32:42.168      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x562a8e525b10 ]
-2020-03-31 19:32:42.168      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x562a8e501ec0 ]
-2020-03-31 19:32:42.168      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x562a8e52fd20 ]
-2020-03-31 19:32:42.168      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x562a8e530090 ]
-2020-03-31 19:32:42.168      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x562a8e5304c0 ]
-2020-03-31 19:32:42.168      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
-2020-03-31 19:32:42.168      code_generator.cpp:42    INFO| Generating LLVM IR
-2020-03-31 19:32:42.168      code_generator.cpp:44    INFO| setting up in-builts
-2020-03-31 19:32:42.172      ast_structures.cpp:87    WARN| data types of binary operands different at, loc: 1.1
-2020-03-31 19:32:42.173      ast_structures.cpp:139   WARN| Producing BITWISE operator at, loc: 1.1
-2020-03-31 19:32:42.173      code_generator.cpp:73    INFO| Generated IR
+2020-03-31 19:44:09.710              loguru.cpp:610   INFO| arguments: ./build/barium/barium test_files/test_all_ir.bar -v INFO --dump-ir
+2020-03-31 19:44:09.710              loguru.cpp:613   INFO| Current dir: /mnt/data/Projects/ProjektBarium
+2020-03-31 19:44:09.710              loguru.cpp:615   INFO| stderr verbosity: 0
+2020-03-31 19:44:09.710              loguru.cpp:616   INFO| -----------------------------------
+2020-03-31 19:44:09.710                main.cpp:82    INFO| DEBUG INFO PARSER
+2020-03-31 19:44:09.710      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x559c197d0a80, name: displayln ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x559c197f87a0, value: "hellow fellow bariums" ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x559c197d4c50, ident: displayln ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:73    INFO| { visit_function_call
+2020-03-31 19:44:09.710      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x559c197f87a0 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
+2020-03-31 19:44:09.710      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x559c197d4a80 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-03-31 19:44:09.710      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x559c197d4c50 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-03-31 19:44:09.710      visitor_pprint.cpp:58    INFO| created block [ addr: 0x559c197f9880 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:60    INFO| { visit_block
+2020-03-31 19:44:09.710      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x559c197d4a80 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
+2020-03-31 19:44:09.710      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c197f99b0, value: 20 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:83    INFO| created variable_declaration [ addr: 0x559c197f91e0, type: decimal, ident: meow, assign_expr: 0x559c197f99b0 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x559c197f81d0, name: displayln ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x559c197f92d0, value: "meow value is %f" ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x559c197f93b0, name: meow ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x559c197f93b0, name: meow ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:38    INFO| created fraction [ addr: 0x559c197f8aa0, value: 3 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c197f8b80, op: /, lhs addr: 0x559c197f93b0, rhs addr: 0x559c197f8aa0 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c197f8b80, op: /, lhs addr: 0x559c197f93b0, rhs addr: 0x559c197f8aa0 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x559c197f9a10, ident: displayln ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:73    INFO| { visit_function_call
+2020-03-31 19:44:09.710      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x559c197f92d0 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x559c197f8b80 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
+2020-03-31 19:44:09.710      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x559c197f8b10 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-03-31 19:44:09.710      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x559c197f9a10 ]
+2020-03-31 19:44:09.710      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-03-31 19:44:09.711      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x559c197f9680, name: displayln ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x559c197f9760, value: "2+3*4+2+2*12 = %d" ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c197f8f70, value: 2 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c197f9040, value: 3 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c197d4e60, value: 4 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c197d4f30, op: *, lhs addr: 0x559c197f9040, rhs addr: 0x559c197d4e60 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c197d4f30, op: *, lhs addr: 0x559c197f9040, rhs addr: 0x559c197d4e60 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c197d4fa0, op: +, lhs addr: 0x559c197f8f70, rhs addr: 0x559c197d4f30 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c197d4fa0, op: +, lhs addr: 0x559c197f8f70, rhs addr: 0x559c197d4f30 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c197d5080, value: 2 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c197d50e0, op: +, lhs addr: 0x559c197d4fa0, rhs addr: 0x559c197d5080 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c197d50e0, op: +, lhs addr: 0x559c197d4fa0, rhs addr: 0x559c197d5080 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c197d51c0, value: 2 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c197d5220, value: 12 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c197d52f0, op: *, lhs addr: 0x559c197d51c0, rhs addr: 0x559c197d5220 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c197d52f0, op: *, lhs addr: 0x559c197d51c0, rhs addr: 0x559c197d5220 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c19802950, op: +, lhs addr: 0x559c197d50e0, rhs addr: 0x559c197d52f0 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c19802950, op: +, lhs addr: 0x559c197d50e0, rhs addr: 0x559c197d52f0 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x559c197d5280, ident: displayln ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:73    INFO| { visit_function_call
+2020-03-31 19:44:09.711      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x559c197f9760 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x559c19802950 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
+2020-03-31 19:44:09.711      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x559c197d4ec0 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-03-31 19:44:09.711      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x559c197d5280 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-03-31 19:44:09.711      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x559c19802a30, name: displayln ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x559c19802b10, value: "0 or 2 = %d" ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c19802bf0, value: 0 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c19802cc0, value: 2 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c19802d90, op: |, lhs addr: 0x559c19802bf0, rhs addr: 0x559c19802cc0 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c19802d90, op: |, lhs addr: 0x559c19802bf0, rhs addr: 0x559c19802cc0 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x559c197f90a0, ident: displayln ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:73    INFO| { visit_function_call
+2020-03-31 19:44:09.711      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x559c19802b10 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x559c19802d90 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
+2020-03-31 19:44:09.711      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x559c19802d20 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-03-31 19:44:09.711      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x559c197f90a0 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-03-31 19:44:09.711      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x559c19802e70, name: displayln ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x559c19802f50, value: "not 0 = %d" ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c19803030, value: 0 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:50    INFO| created unary operator [ addr: 0x559c19803100, op: !, operand: 0x559c19803030 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x559c19802c50, ident: displayln ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:73    INFO| { visit_function_call
+2020-03-31 19:44:09.711      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x559c19802f50 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x559c19803100 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
+2020-03-31 19:44:09.711      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x559c19803090 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-03-31 19:44:09.711      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x559c19802c50 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-03-31 19:44:09.711      visitor_pprint.cpp:54    INFO| created identifier [ addr: 0x559c19803230, name: displayln ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:42    INFO| created stringlit [ addr: 0x559c19803310, value: "1 and 1 = %d" ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c19803160, value: 1 ]
+2020-03-31 19:44:09.711      visitor_pprint.cpp:34    INFO| created decimal [ addr: 0x559c19803460, value: 1 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c19803530, op: &, lhs addr: 0x559c19803160, rhs addr: 0x559c19803460 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:46    INFO| created binary operator [ addr: 0x559c19803530, op: &, lhs addr: 0x559c19803160, rhs addr: 0x559c19803460 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:72    INFO| created function_call [ addr: 0x559c197f8fd0, ident: displayln ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:73    INFO| { visit_function_call
+2020-03-31 19:44:09.712      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x559c19803310 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:78    INFO| .   contains arg [ addr: 0x559c19803530 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:73    INFO| } 0.000 s: visit_function_call
+2020-03-31 19:44:09.712      visitor_pprint.cpp:27    INFO| created expr_statement [ addr: 0x559c198034c0 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:28    INFO| { visit_expr_statement
+2020-03-31 19:44:09.712      visitor_pprint.cpp:29    INFO| .   contains expression [ addr: 0x559c197f8fd0 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:28    INFO| } 0.000 s: visit_expr_statement
+2020-03-31 19:44:09.712      visitor_pprint.cpp:58    INFO| created block [ addr: 0x559c197f9880 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:60    INFO| { visit_block
+2020-03-31 19:44:09.712      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x559c197d4a80 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x559c197f91e0 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x559c197f8b10 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x559c197d4ec0 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x559c19802d20 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x559c19803090 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:62    INFO| .   contains statement [ addr: 0x559c198034c0 ]
+2020-03-31 19:44:09.712      visitor_pprint.cpp:60    INFO| } 0.000 s: visit_block
+2020-03-31 19:44:09.712      code_generator.cpp:42    INFO| Generating LLVM IR
+2020-03-31 19:44:09.712      code_generator.cpp:44    INFO| setting up in-builts
+2020-03-31 19:44:09.712      ast_structures.cpp:87    WARN| data types of binary operands different at, loc: 1.1
+2020-03-31 19:44:09.712      ast_structures.cpp:139   WARN| Producing BITWISE operator at, loc: 1.1
+2020-03-31 19:44:09.712      code_generator.cpp:73    INFO| Generated IR
 ; ModuleID = 'barium-jit'
 source_filename = "barium-jit"
 
@@ -150,9 +150,9 @@ entry:
   call void (i8*, ...) @displayln(i8* getelementptr inbounds ([13 x i8], [13 x i8]* @.str.5, i64 0, i64 0), i64 1)
   ret i64 1
 }
-2020-03-31 19:32:42.193      code_generator.cpp:80    INFO| Running Code!
-2020-03-31 19:32:42.307      code_generator.cpp:111   INFO| code was run!
-2020-03-31 19:32:42.308              loguru.cpp:489   INFO| atexit
+2020-03-31 19:44:09.714      code_generator.cpp:80    INFO| Running Code!
+2020-03-31 19:44:09.721      code_generator.cpp:111   INFO| code was run!
+2020-03-31 19:44:09.721              loguru.cpp:489   INFO| atexit
 hellow fellow bariums
 meow value is 6.666667
 2+3*4+2+2*12 = 40
