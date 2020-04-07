@@ -83,3 +83,15 @@ $ ./barium test_files/test_all_ir.bar -v INFO
 ## Screenshot
 
 ![help](screenshots/help.png)
+
+## Compiler Recipe
+
+![compiler-recipe](compiler-recipe.png)
+
+## Example AST
+
+Run
+![binary-op-test](screenshots/binary-op-test.png)
+
+AST
+![binary-op-test-ast](screenshots/binary-op-test-ast.png)
